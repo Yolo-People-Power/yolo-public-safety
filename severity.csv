@@ -1,0 +1,120 @@
+sentence,severity
+1 YR OR J,felony
+1-180 DA JAIL OR F,misdemeanor
+1-180 DA JAIL,misdemeanor
+1-180 DA OR F,misdemeanor
+1-25 DA JAIL,misdemeanor
+1-30 DA JAIL,misdemeanor
+1-365 DA JAIL,misdemeanor
+1-365 DA JAIL OR F,misdemeanor
+1-365 DA JAIL,misdemeanor
+1-365 DA OR JAIL,misdemeanor
+1-5 DA JAIL,misdemeanor
+1-5 DAYS,misdemeanor
+1-5 YRS OR F,felony
+1-50 DA JAIL,misdemeanor
+1-60 DA JAIL OR F,misdemeanor
+1-60 DA JAIL,misdemeanor
+1-90 DA JAIL,misdemeanor
+"1,2,3 YRS OR J",felony
+"1,2,3 YRS",felony
+10 YRS TO LIFE,felony
+10-175 DA JAIL,misdemeanor
+10-180 DA JAIL,misdemeanor
+10-365 DA JAIL,misdemeanor
+10-90 DA JAIL,misdemeanor
+"10,12,14 YRS",felony
+120-365 DA JAIL,misdemeanor
+15 YRS TO LIFE,felony
+15-180 DA JAIL,misdemeanor
+"16 MO, 2, 3 YRS",felony
+"16 MO, 2,3 YRS",felony
+"16 MO,2 3 YRS",felony
+"16 MO,2, 3 YRS",felony
+"16 MO,2,3 YRS",felony
+"16 MO,2,3 YRS OR F",felony
+"16 MO,2,3 YRS OR J",felony
+"16 MO,2,3 YRS",felony
+"16 MO,2,3, YRS",felony
+"16 MO,2,4 YRS",felony
+"16,20,24 MO OR J",felony
+"16,20,24 MO",felony
+180 DA JAIL,misdemeanor
+180-365 DA JAIL OR,misdemeanor
+180-365 DA JAIL,misdemeanor
+2-5 YRS,felony
+"2, 3, 4 YRS",felony
+"2,3,4 YRS OR F",felony
+"2,3,4 YRS OR J",felony
+"2,3,4 YRS OR JAIL",felony
+"2,3,4 YRS",felony
+"2,3,5 YRS OR F",felony
+"2,3,5 YRS OR J",felony
+"2,3,5 YRS",felony
+"2,3,6 YRS OR F",felony
+"2,4,5 YRS",felony
+"2,4,6 YRS OR J",felony
+"2,4,6 YRS",felony
+"2,4,8 YRS",felony
+20-90 DA JAIL,misdemeanor
+25 YRS TO LIFE,felony
+270-365 DA JAIL,misdemeanor
+"3,4,5 YRS OR J",felony
+"3,4,5 YRS",felony
+"3,4,6 YRS",felony
+"3,5,7 YRS OR F",felony
+"3,5,7 YRS OR J",felony
+"3,5,7 YRS",felony
+"3,5,8 YRS",felony
+"3,5,9 YRS",felony
+"3,6,11 YRS",felony
+"3,6,8 YRS",felony
+"3,6,9 YRS OR F",felony
+"3,6,9 YRS",felony
+30 DA JAIL,misdemeanor
+30 DA-24 MO JAIL,felony
+30-180 DA JAIL OR,misdemeanor
+30-180 DA JAIL,misdemeanor
+30-365 DA JAIL OR,misdemeanor
+30-365 DA JAIL,misdemeanor
+30-90 DA JAIL,misdemeanor
+4-180 DA JAIL,misdemeanor
+"4,6,10 YRS OR J",felony
+"4,6,10 YRS",felony
+"4,6,8 YRS OR J",felony
+"4,6,8 YRS",felony
+"4,8,12 YRS",felony
+5 YRS OR FINE,felony
+5-365 DA JAIL,misdemeanor
+5-90 DA JAIL,misdemeanor
+"5,10,15 YRS",felony
+"5,6,7 YRS",felony
+"5,7,9 YRS",felony
+"5,8,11 YRS",felony
+"5,8,12 YRS",felony
+50-180 DA JAIL,misdemeanor
+50-365 DA JAIL,misdemeanor
+"6,12,16 YRS",felony
+"6,8,10 YRS",felony
+"6,9,12 YRS",felony
+60-180 DA JAIL,misdemeanor
+"7,9,11 YRS",felony
+"8,10,12 YRS",felony
+"8,12,18 MO",felony
+"8,12,18 MOS",felony
+"8,14,20 YRS",felony
+"9,11,13 YRS",felony
+90 DA JAIL,misdemeanor
+90-365 DA JAIL OR,misdemeanor
+90-365 DA JAIL,misdemeanor
+DEATH OR LIFE,felony
+FINE,misdemeanor
+LIFE W/O PAROLE,felony
+LIFE,felony
+NOT EXC 1 YR OR J,misdemeanor
+NOT EXC 1 YR,misdemeanor
+NOT EXC 5 YRS OR J,felony
+NOT EXC 6 MOS,misdemeanor
+1 YR 1 DA,felony
+1-10 DA JAIL,misdemeanor
+1-10 DA JAIL OR F,misdemeanor

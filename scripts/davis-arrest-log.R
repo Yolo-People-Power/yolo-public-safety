@@ -3,12 +3,13 @@
   library(plyr)
   library(tidyverse)
   library(reshape2)
+  library(googlesheets4)
   
-  setwd("/Users/bapu/Projects/watershed/action/public-safety")
+  setwd("/Users/bapu/Projects/watershed/action/public-safety/ssc-analysis")
   
   # Scrape arrest log----
-  davis_arrest_scrape <- extract_tables(
-    file = "./davis/davis-arrest-log.pdf",
+  davis_log_raw <- extract_tables(
+    file = "./data/davis-arrest-log.pdf",
     method = "decide",
     output = "data.frame", 
     header = F)
@@ -16,7 +17,7 @@
   # Clean up arrest log----
     # Rename columns
   colnames <- c("date", "charge1", "charge2", "charge3", "sex", "race", "age")
-  davis_log <- lapply(davis_arrest_scrape, setNames, colnames)
+  davis_log <- lapply(davis_log_raw, setNames, colnames)
     # Bind list into one data frame
   davis_log <- rbind.fill(davis_log)
     # Remove old column name row, blank final row
@@ -738,7 +739,6 @@
         "cannabis"
     ))
   
-  
   # Health and Safety Code
     # Divisions
   le_code <- le_code %>% 
@@ -929,9 +929,38 @@
              subsection3, subsection4, subsection5, description, sentence, 
              sec_code, part, title, chapter, division, severity), as.factor)
   
-  # Join arrest log & CA code-----
+  # Join arrest log & CA code, export in various aggregates-----
   davis_log <- left_join(davis_log, le_code, by = "sec_code")
+    # Verify column classes
+  davis_log <- davis_log %>% 
+    mutate_at(vars(incident_id, sex, race, charge_num, sec_code, ca_code,
+                   section_full, section, section, subsection1, subsection2,
+                   subsection3, subsection4, subsection5, description,
+                   part, part_head, division, division_head,
+                   title, title_head, chapter,
+                   chapter_head), as.factor)
+  davis_log$age <- as.numeric(davis_log$age)
+  davis_log$date <- mdy(davis_log$date)
+    # Add new rough category for Davis-included charges
+  supp_codes <- read_sheet(
+    "https://docs.google.com/spreadsheets/d/1jExCh-Kv4o3vFSrZaWBJ4OchHXhehPFryMuufxiDqMI/edit#gid=1099502257"
+  )
+      # Retain only section and category columns
+  supp_codes <- supp_codes[,4:5]
+      # Merge with Davis arrest log
+  davis_log <- left_join(davis_log, supp_codes, by = "sec_code")
+      # Export full
+  write.csv(davis_log, "./data/davis_log.csv")
+      
+    # Monthly aggregates
+  davis_log_month <- davis_log %>% 
+    count(date, race, severity, category)
+    
+  davis_log_month <- davis_log_month %>% 
+    group_by(month = floor_date(date, "month")) %>% 
+    count(race, severity, category)
   
+  write.csv(davis_log_month, "./data/davis_log_month.csv")
   
 
   
