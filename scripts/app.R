@@ -1,61 +1,88 @@
 library(shiny)
 library(ggplot2)
 library(plotly)
+library(shinyjs)
+library(DT)
+library(shinythemes)
 
-library(shiny)
-
-# Define UI for app that draws a histogram ----
 ui <- fluidPage(
-  
-  # App title ----
-  titlePanel("Davis arrest log, 2016-2020"),
-  
-  # Sidebar layout with input and output definitions ----
+  titlePanel("Davis arrest log, 6/2015-6/2020"),
   sidebarLayout(
-    
-    # Sidebar panel for inputs ----
     sidebarPanel(
-      
-      # Input: Slider for the number of bins ----
-      sliderInput("month",
-                  "Month",
-                  min = "2015-06-01","%Y-%m-%d"),
-                  max = "2020-06-01","%Y-%m-%d"),
-                  value="2015-16-01"),
-    
-    # Main panel for displaying outputs ----
+      sliderInput("date", "Date range",
+                     min = as.Date("2015-06-02", "%Y-%m-%d"),
+                     max = as.Date("2020-06-16", "%Y-%m-%d"),
+                     value = c(as.Date("2015-06-02", "%Y-%m-%d"), 
+                               as.Date("2020-06-16", "%Y-%m-%d")),
+                     timeFormat = "%Y-%m-%d",
+                  dragRange = TRUE),
+                 checkboxGroupInput("severity", "Severity", 
+                                    choices = 
+                                      levels(davis_daily_log$severity),
+                                    selected = "Felony"),
+                 checkboxGroupInput("race", "Race", 
+                                    choices = levels(davis_daily_log$race),
+                                    selected = "White"),
+                 checkboxGroupInput("category", "Category", 
+                                    choices = levels(davis_daily_log$category),
+                                    selected = "Alcohol-related incidents"),
+    ),
     mainPanel(
-      
-      # Output: Histogram ----
-      plotOutput(outputId = "distPlot")
-      
+      plotOutput("results_plot"),
+      br(),
+      br(),
+      actionButton("toggle", "Hide/show table"),
+      tableOutput("values")
+      # br(),
+      # br(),
+      # DT::dataTableOutput("downloadData", "Download")
     )
-  )
-
-
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
+  ))
   
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-    
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-    
+server <- function(input,output) {
+  
+  selectedValues <- reactive({
+    dateView <- seq(input$date[1], input$date[2], by = 1)
+    # data.frame(
+    #   Name = c("Date", "Severity", "Race", "Category"),
+    #   Value = as.character(c(paste(input$date, collapse = " "),
+    #                          input$severity,
+    #                          input$race,
+    #                          input$category)),
+    #   stringsAsFactors = FALSE)
+    # ) 
+    davis_daily_log %>%
+      filter(date %in% dateView &
+               severity %in% input$severity &
+               race %in% input$race &
+               category %in% input$category)
   })
+  
+  output$results_plot <- renderPlot({
+    ggplot(selectedValues()) +
+            geom_col(aes(x=date, y=n,
+                         color = race,
+                         fill = race)) 
+      # + geom_smooth(aes(x=date, y =n, color = race, 
+      #                 linetype = severity), se = FALSE) 
+  
+
+  })
+  
+  observeEvent(input$toggle, {
+    toggle("results_table")
+  })
+  
+  # output$downloadData <- downloadHandler (
+  #   filename = function() {
+  #     paste("Selected_results", ".csv", sep = "")
+  #   },
+  #   content = function(file) {
+  #     write.csv(totals_filtered(), file, row.names = FALSE)
+  #   }
+  # )
   
 }
 
-# Create Shiny app ----
+
 shinyApp(ui, server)

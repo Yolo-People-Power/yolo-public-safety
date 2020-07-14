@@ -4,15 +4,35 @@
   library(tidyverse)
   library(reshape2)
   library(googlesheets4)
+  library(data.table)
   
   setwd("/Users/bapu/Projects/watershed/action/public-safety/ssc-analysis")
   
-  # Scrape arrest log----
+  # Scrape, download necessary data tables ----
+    # This dataset is made available by the Davis PD upon a Public Records Request.
   davis_log_raw <- extract_tables(
     file = "./data/davis-arrest-log.pdf",
     method = "decide",
     output = "data.frame", 
     header = F)
+    
+    # Add & clean up CA law enforcement code tables
+  le_code_raw <- read.csv(url(
+    "https://oag.ca.gov/sites/all/files/agweb/law-enforcement/code-tables/macrcode.csv?070920201056"),
+    header = FALSE)
+  
+    # Crime sentencing severity. File is manually constructed from
+    # sentence durations in Davis arrest log.
+  severity <- read_sheet(
+    "https://docs.google.com/spreadsheets/d/1arqMRPvlznsOTjmrRYr2EEucXNydZrLpqz7L4eD5iyY/edit?usp=sharing")
+  
+    # Categorization for charges included in Davis arrest log only, drawn from 
+    # https://oag.ca.gov/sites/all/files/agweb/pdfs/cjsc/prof10/codes.pdf
+  supp_codes <- read_sheet(
+    "https://docs.google.com/spreadsheets/d/1jExCh-Kv4o3vFSrZaWBJ4OchHXhehPFryMuufxiDqMI/edit#gid=1099502257"
+  )
+    # Retain only section and category columns
+  supp_codes <- supp_codes[,4:5]
   
   # Clean up arrest log----
     # Rename columns
@@ -24,7 +44,7 @@
   davis_log <- davis_log[c(-1, -2852),]
     # Renumber rows & add incident ID column with row numbers
   rownames(davis_log) <- 1:nrow(davis_log)
-  davis_log <- cbind("incident_id" = rownames(davis_log), data.frame(davis_log))
+  davis_log <- cbind("indiv_id" = rownames(davis_log), data.frame(davis_log))
     # Fix errors in race field
   davis_log$race <- gsub("Be lAacmkerican|eB lAacmkerican", 
                          "Black", davis_log$race)
@@ -37,36 +57,31 @@
   davis_log$race <- gsub("OIsltahnedr eArsian", 
                          "Other Asian", davis_log$race)
   
-  # Reshape and prep dataset----
-  davis_log <- melt(davis_log, id.vars = 
-                 c("incident_id", "date", "sex", "race", "age"))
-  colnames(davis_log) <- c("incident_id", "date", "sex", "race", "age",
+  # Reshape and prep arrest log----
+  davis_log_long <- melt(davis_log, id.vars = 
+                 c("indiv_id", "date", "sex", "race", "age"))
+  colnames(davis_log_long) <- c("indiv_id", "date", "sex", "race", "age",
                            "charge_num", "sec_code")
     # Fill in rows with missing race, remove rows with blank charges
-  davis_log$race <- sub("^$", "Missing", davis_log$race)
-  davis_log <- davis_log %>% na_if("") %>% na.omit
+  davis_log_long$race <- sub("^$", "Missing", davis_log_long$race)
+  davis_log_long <- davis_log_long %>% na_if("") %>% na.omit
     # Standardize charge codes (capitalize, delete spaces)
-  davis_log$sec_code <- toupper(davis_log$sec_code)
-  davis_log$sec_code <- gsub(" ", "", davis_log$sec_code, fixed = TRUE)
+  davis_log_long$sec_code <- toupper(davis_log_long$sec_code)
+  davis_log_long$sec_code <- gsub(" ", "", davis_log_long$sec_code, fixed = TRUE)
     # Correct typos in charge codes
-  davis_log$sec_code[davis_log$sec_code == "508"] <- "508PC"
-  davis_log$sec_code[davis_log$sec_code == "11364"] <- "11364(A)HS"
+  davis_log_long$sec_code[davis_log_long$sec_code == "508"] <- "508PC"
+  davis_log_long$sec_code[davis_log_long$sec_code == "11364"] <- "11364(A)HS"
     # Correct col classes
-  davis_log <- davis_log %>% mutate_at(vars(incident_id, sex, race, charge_num,
+  davis_log_long <- davis_log_long %>% mutate_at(vars(indiv_id, sex, race, charge_num,
                                             sec_code), as.factor)
-  davis_log$age <- as.numeric(davis_log$age)
-  davis_log$date <- mdy(davis_log$date)
-  
-  # Add & clean up CA law enforcement code tables----
-  le_code_raw <- read.csv(url(
-    "https://oag.ca.gov/sites/all/files/agweb/law-enforcement/code-tables/macrcode.csv?070920201056"),
-    header = FALSE)
-  
-    # Retain only code, section, description and sentence (don't know what other columns are!)
+  davis_log_long$age <- as.numeric(davis_log_long$age)
+  davis_log_long$date <- mdy(davis_log_long$date)
+    
+  # Clean up law enforcement code tables----
+    # Retain main fields (don't know what other fields are!)
   le_code <- le_code_raw[c("V6", "V5", "V7", "V8")]
   colnames(le_code) <- c("ca_code", "section_full", 
                          "description", "sentence")
-  
     # Add missing sections, codes, & code descriptions
   le_code <- le_code %>% add_row(section_full = "11357(A)", ca_code ="HS", 
                                  description = "POSSESSION MARIJUANA")
@@ -289,7 +304,7 @@
   le_code[, c("part", "part_head", "title", "title_head", 
               "chapter", "chapter_head")] <- NA
   
-    # Add Codes values----
+    # Add California Codes information----
       # Penal Code Parts
   le_code <- le_code %>% 
     mutate(part = case_when(section < 681 & ca_code == "PC" ~ 1,
@@ -918,52 +933,49 @@
       section >= 151000 & section <= 151003 & ca_code == "HS" ~ 
         "sexual health education accountability act"))
   
-  # Add felony/misdemeanor, offense type categories. Note 'severity' file is 
-  # manually constructed from aentence durations.
+    # Add felony/misdemeanor 
   le_code <- left_join(le_code, severity, by = "sentence")
-  le_code$severity <- as.factor(le_code$severity)
-  
+
     # Correct column classes
   le_code <- le_code %>% 
-    mutate_at(vars(ca_code, section_full, section, subsection1, subsection2,
+   mutate_at(vars(ca_code, section_full, section, subsection1, subsection2,
              subsection3, subsection4, subsection5, description, sentence, 
-             sec_code, part, title, chapter, division, severity), as.factor)
+             sec_code, part, title, title_head, chapter, chapter_head,
+             division, division_head, severity), as.factor)
   
-  # Join arrest log & CA code, export in various aggregates-----
-  davis_log <- left_join(davis_log, le_code, by = "sec_code")
+    # Create single rows for same offense
+  le_code <- le_code %>% group_by(sec_code) %>% mutate(id = row_number())
+  le_code <- dcast(setDT(le_code), 
+                 ca_code + section_full + section + subsection1 + 
+                   subsection2 + subsection3 + subsection4 + subsection5 + 
+                   sec_code + part + part_head + title + title_head +
+                   chapter + chapter_head + division + division_head ~ id, 
+                 value.var = c("description", "sentence", "severity"))
+  
+  # Join arrest log, CA code, and supp code; export in various aggregates-----
+  davis_log_long <- left_join(davis_log_long, le_code, by = "sec_code")
+  davis_log_long <- left_join(davis_log_long, supp_codes, by = "sec_code")
+  
     # Verify column classes
-  davis_log <- davis_log %>% 
-    mutate_at(vars(incident_id, sex, race, charge_num, sec_code, ca_code,
+  davis_log_long <- davis_log_long %>% 
+    mutate_at(vars(indiv_id, sex, race, charge_num, sec_code, ca_code,
                    section_full, section, section, subsection1, subsection2,
-                   subsection3, subsection4, subsection5, description,
+                   subsection3, subsection4, subsection5, description_1, 
+                   description_2, description_3, description_4, description_5,
+                   description_6, description_7, description_8, sentence_1, 
+                   sentence_2, sentence_3, sentence_4, sentence_5, sentence_6, 
+                   sentence_7, sentence_8, severity_1, severity_2, severity_3, 
+                   severity_4, severity_5, severity_6, severity_7, severity_8, 
                    part, part_head, division, division_head,
                    title, title_head, chapter,
-                   chapter_head), as.factor)
-  davis_log$age <- as.numeric(davis_log$age)
-  davis_log$date <- mdy(davis_log$date)
-    # Add new rough category for Davis-included charges
-  supp_codes <- read_sheet(
-    "https://docs.google.com/spreadsheets/d/1jExCh-Kv4o3vFSrZaWBJ4OchHXhehPFryMuufxiDqMI/edit#gid=1099502257"
-  )
-      # Retain only section and category columns
-  supp_codes <- supp_codes[,4:5]
-      # Merge with Davis arrest log
-  davis_log <- left_join(davis_log, supp_codes, by = "sec_code")
-      # Export full
-  write.csv(davis_log, "./data/davis_log.csv")
-      
-    # Monthly aggregates
-  davis_log_month <- davis_log %>% 
-    count(date, race, severity, category)
-    
-  davis_log_month <- davis_log_month %>% 
-    group_by(month = floor_date(date, "month")) %>% 
-    count(race, severity, category)
-  
-  write.csv(davis_log_month, "./data/davis_log_month.csv")
-  
+                   chapter_head, category), as.factor)
 
-  
-  
-  
+      # Export full
+  write.csv(davis_log_long, "./data/davis_log_long.csv")
+    
+    # Daily aggregates by severity, race, and category
+  davis_daily_log <- davis_log_long %>%
+    count(date, indiv_id, race, category, name = "daily_count")
+
+
   
