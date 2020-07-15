@@ -1,0 +1,144 @@
+type,type_desc,category
+166.4,Violation Of Court Order,Violation of court order
+187,Murder,Homicide/death
+207,Kidnapping,Kidnapping
+211,Robbery,Robbery
+220,Sexual Assault,Sexual assaults/lewd conduct
+240,Assault,Assault and battery
+242,Battery,Assault and battery
+245,Assault With Deadly Weapon,Assault and battery
+261,Rape,Sexual assaults/lewd conduct
+273.5,Domestic Violence,Domestic violence
+288,Lewd Acts with a Child,Sexual assaults/lewd conduct
+300,Child Abuse or Neglect,Child/elder abuse
+314,Indecent Exposure,Sexual assaults/lewd conduct
+417,Brandishing A Weapon,Threats/Harassment
+422,Threats to Commit Death/Great Bodly Inj,Threats/harassment
+487,Grand Theft,Theft
+488,Petty Theft,Theft
+490.5,Shoplift Complaint,Theft
+594,Vandalism,Vandalism
+601,Runaway,Person search
+602,Trespass Complaint,Trespassing
+666,General emergency?,Assist other agencies
+1055,Dead Body,Homicide/death
+1056,Suicide,Suicide
+1091,Animal Related Incident,Animals
+1124,Abandoned Vehicle,Vehicle violations
+1125,Traffic Hazard,Vehicle violations
+1126,Abandoned Bike,Bicycle-related
+1148,Provide Transportation,Miscellaneous
+5150,Mental Evaluation Request,Mental evaluation
+10851,Auto Theft,Theft
+10852,Tampering w/Vehicle,Vehicle violations
+11160,Violent Injury/Mandated Reporter,Assault and battery
+11166,Child Abuse Reporting Mandated Reporters,Child/elder abuse
+15630,Elder Abuse/Mandated Reporter,Child/elder abuse
+20001,Hit and Run with Injuries,Hit and run
+20002,Hit and Run Non Injury,Hit and run
+23103,Reckless Driving,Vehicle violations
+23110,Throwing Substance at Vehicle,Civil disturbance
+23112,Throwing Substance from a Vehicle,Civil disturbance
+23152,DUI,Alcohol-related incidents
+1056A,Suicidal Subject Attempt,Suicide
+211A,Robbery Alarm,Robbery
+290CHECK,Sex Offender Check?,Sexual assaults/lewd conduct
+415F,Disturbance Family,Civil disturbance
+415J,Juvenile Disturb/Problem,Civil disturbance
+415P,Disturbance Physical,Civil disturbance
+415V,Disturbance Verbal ,Civil disturbance
+459A,Burglar Alarm,Burglary
+459C,Burglary Commercial,Burglary
+459R,Burglary Residential,Burglary
+459V,Burglary Vehicle,Burglary
+594G,Graffiti Vandalism,Vandalism
+602L,Trespassing,Trespassing
+647C,Panhandling / Soliciting,Panhandling
+647F,Drunk in Public,Alcohol-related incidents
+653M,Annoying/Threatening Phone Call ,Threats/Harassment
+911HU,911 Hang Up,911 hang up
+AC,Animal Control After Hours,Animals
+ACCI,Injury Accident,Accidents/injuries
+ACCN,Non Injury Accident,Accidents/injuries
+ACCU,Unk Injury Accident,Accidents/injuries
+ALARM,Audible Alarm (Unverified),Alarms
+ALC,Alcohol Related Calls,Alcohol-related incidents
+APPT,Unknown,Unknown
+ARSON,Arson,Arson
+ATC,Attempt to Contact/ Locate,Person search
+BARK,Barking Dog,Animals
+BIKE,Bicycle-Related (Unknown),Bicycle-related
+BOL,Be on the Lookout,Person search
+BOMB,C10 Bomb Threat,Weapons
+BOOKING,Unknown,Unknown
+BOOT,Vehicle Boot /5 Citations or More,Vehicle violations
+C5,Unknown (stakeout?),Unknown
+CE,Code Enforcement Contact,Code enforcement contact
+CIP,Comm Intervention,Miscellaneous
+CITE,Citation Signoff,Citation signoff
+CITY,City Code Violation,City code violation
+CIVIL,Any Civil Problem,Civil disturbance
+CLOSE,Road Closure,Assist other agencies
+CONSTR,Noise Complaint Construction,Noise
+DRUGS,Health and Safety/Drug Activity,Drugs
+FLAG,Flag Down By Citizen,General assistance
+FOOT,Foot Patrol,Foot patrol
+FP,Foot Patrol,Foot patrol
+FRAUD,Fraud,Fraud/identity theft
+FWORKS,Fireworks,Civil disturbance
+GRASS,First Alarm Grass Fire,Assist other agencies
+HARAS,Harassment,Threats/harassment
+ID,Identity Theft,Fraud/identity theft
+LF,Property Lost/Found,Lost property
+MP,Missing Person,Person search
+MSR,Miscellaneous Service Request,Miscellaneous service
+MUSIC,Noise Complaint Loud Music,Noise
+NOCITE,Do Not Cite Request,Miscellaneous
+NOISE,Miscellaneous Noise Complaint,Noise
+OD,Assist Other Agency,Assist other agencies
+PARK,Parking Complaint,Vehicle violations
+PARTY,Party Complaint,Noise
+PCS,(Old) Parks Comm Sys,Assist other agencies
+PDVEH,Police department vehicle?,Assist other PD vehicle?
+PEEP,Peeping 647(I),Sexual assaults/lewd conduct
+PERMIT,Permit Information,Miscellaneous
+PGS,Parks and General Services ,Assist other agencies
+PPTOW,Private Property Tow,Vehicle tow
+PRIV,Private Patrol,Miscellaneous
+PRCS,Unknown,Unknown
+PROP PU,Property Pickup,Lost property
+PROWL,Prowler,Threats/harassment
+PUB,Public Contact,Public contact (general)
+PW,Public Works,Assist other agencies
+R10851,Stolen Vehicle Recovery,Theft
+RECALL,Unknown,Unknown
+REG,Car registration problem?,Vehicle violations
+REPO,Property repossession?,Miscellaneous
+RIDE,Provide transport?,Miscellaneous
+RO,Unknown,Unknown
+SA,Unknown,Unknown
+SCIR,Suspicious Circumstance,Suspicious circumstance
+SHOTS,Shots Fired / Heard,Weapons
+SKATE,Skateboarding Violation,Civil disturbance
+SMOKE,Smoking Violation,Civil disturbance
+SPER,Suspicious Person,Suspicious person
+SS,Subject Stop,Subject stop
+STAA,Still Alarm Auto Accident,Accidents/injuries
+STALK,Stalking Report,Threats/harassment
+SUPP,Supplemental Report,Miscellaneous
+SVEH,Suspicious Vehicle,Suspicious vehicle
+SW,Search Warrant,Miscellaneous
+TRAF,Traffic Enforcement,Vehicle violations
+TRUANT,Truancy,Truancy
+TSTOP,Traffic Stop,Traffic stop
+VACA CK,Vacation Check,Miscellaneous
+VEH,Unknown,Vehicle violations
+VEHA,Vehicle Alarm,Alarms
+VEHUN,Unknown,Vehicle violations
+WEBRPT,Web reporting,Miscellaneous
+WBRPT,Web reporting,Miscellaneous
+WELF,Welfare Check,Welfare check
+WOOD,Wood Burning Complaint,Miscellaneous
+WRNT,Warrant Service or Incident,Miscellaneous
+XPAT,Extra Patrol,Extra patrol
+YS,Unknown,Unknown
