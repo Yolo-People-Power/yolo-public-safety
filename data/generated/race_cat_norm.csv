@@ -1,0 +1,101 @@
+"","category","race","rate_k"
+"1","*All arrests","Asian",2.24785646023178
+"2","*All arrests","Other/Unknown",9.88296488946684
+"3","*All arrests","Black",68.7197760244337
+"4","*All arrests","White",11.6218514188543
+"5","*All arrests","Hispanic",17.6888776712098
+"6","Alcohol-related incidents","Asian",0.740312007860767
+"7","Alcohol-related incidents","Other/Unknown",1.82054616384915
+"8","Alcohol-related incidents","Black",7.12649529142275
+"9","Alcohol-related incidents","White",1.35508555638219
+"10","Alcohol-related incidents","Hispanic",3.15497223624432
+"11","Arson","Asian",0
+"12","Arson","Other/Unknown",0.104031209362809
+"13","Arson","Black",0.509035377958768
+"14","Arson","White",0.0265703050271017
+"15","Arson","Hispanic",0.0210331482416288
+"16","Assault and battery","Asian",0.376886113092754
+"17","Assault and battery","Other/Unknown",1.04031209362809
+"18","Assault and battery","Black",11.8350725375414
+"19","Assault and battery","White",1.34445743437135
+"20","Assault and battery","Hispanic",2.22951371361265
+"21","Burglary","Asian",0.0403806549742237
+"22","Burglary","Other/Unknown",0.260078023407022
+"23","Burglary","Black",4.19954186815984
+"24","Burglary","White",0.46763736847699
+"25","Burglary","Hispanic",0.483762409557463
+"26","Disturbing the peace","Asian",0.0403806549742237
+"27","Disturbing the peace","Other/Unknown",0.104031209362809
+"28","Disturbing the peace","Black",2.41791804530415
+"29","Disturbing the peace","White",0.212562440216814
+"30","Disturbing the peace","Hispanic",0.315497223624432
+"31","Drug offenses","Asian",0.484567859690684
+"32","Drug offenses","Other/Unknown",2.70481144343303
+"33","Drug offenses","Black",17.0526851616187
+"34","Drug offenses","White",4.40535657349346
+"35","Drug offenses","Hispanic",5.53171798754838
+"36","Homicide","Asian",0
+"37","Homicide","Other/Unknown",0
+"38","Homicide","Black",0.127258844489692
+"39","Homicide","White",0.015942183016261
+"40","Homicide","Hispanic",0.0841325929665152
+"41","Impeding public justice","Asian",0.0403806549742237
+"42","Impeding public justice","Other/Unknown",0.416124837451235
+"43","Impeding public justice","Black",1.27258844489692
+"44","Impeding public justice","White",0.239132745243915
+"45","Impeding public justice","Hispanic",0.378596668349319
+"46","Kidnapping/false imprisonment","Asian",0.0807613099484474
+"47","Kidnapping/false imprisonment","Other/Unknown",0.208062418725618
+"48","Kidnapping/false imprisonment","Black",1.90888266734538
+"49","Kidnapping/false imprisonment","White",0.0850249760867255
+"50","Kidnapping/false imprisonment","Hispanic",0.273430927141175
+"51","Miscellaneous","Asian",0.0403806549742237
+"52","Miscellaneous","Other/Unknown",0.884265279583875
+"53","Miscellaneous","Black",3.1814711122423
+"54","Miscellaneous","White",0.393240514401105
+"55","Miscellaneous","Hispanic",0.841325929665152
+"56","Probation and prison violations","Asian",0.0134602183247412
+"57","Probation and prison violations","Other/Unknown",0.312093628088427
+"58","Probation and prison violations","Black",0.890811911427844
+"59","Probation and prison violations","White",0.356042087363163
+"60","Probation and prison violations","Hispanic",0.336530371866061
+"61","Robbery","Asian",0.0134602183247412
+"62","Robbery","Other/Unknown",0.104031209362809
+"63","Robbery","Black",1.14532960040723
+"64","Robbery","White",0.111595281113827
+"65","Robbery","Hispanic",0.294464075382803
+"66","Sentence enhancements","Asian",0
+"67","Sentence enhancements","Other/Unknown",0
+"68","Sentence enhancements","Black",0.509035377958768
+"69","Sentence enhancements","White",0.0478265490487831
+"70","Sentence enhancements","Hispanic",0.0841325929665152
+"71","Sexual assault/offenses","Asian",0.0538408732989649
+"72","Sexual assault/offenses","Other/Unknown",0.156046814044213
+"73","Sexual assault/offenses","Black",0.509035377958768
+"74","Sexual assault/offenses","White",0.0850249760867255
+"75","Sexual assault/offenses","Hispanic",0.252397778899546
+"76","Theft","Asian",0.148062401572154
+"77","Theft","Other/Unknown",1.1443433029909
+"78","Theft","Black",8.0173072028506
+"79","Theft","White",1.37102773939845
+"80","Theft","Hispanic",1.66161871108868
+"81","Threats to the person/child endangerment","Asian",0
+"82","Threats to the person/child endangerment","Other/Unknown",0
+"83","Threats to the person/child endangerment","Black",0.127258844489692
+"84","Threats to the person/child endangerment","White",0.00531406100542034
+"85","Threats to the person/child endangerment","Hispanic",0.0420662964832576
+"86","Trespassing","Asian",0.0269204366494825
+"87","Trespassing","Other/Unknown",0.0520156046814044
+"88","Trespassing","Black",0.509035377958768
+"89","Trespassing","White",0.100967159102987
+"90","Trespassing","Hispanic",0.0841325929665152
+"91","Vandalism","Asian",0.0269204366494825
+"92","Vandalism","Other/Unknown",0.0520156046814044
+"93","Vandalism","Black",1.78162382285569
+"94","Vandalism","White",0.244446806249336
+"95","Vandalism","Hispanic",0.231364630657917
+"96","Vehicular violations","Asian",0.0403806549742237
+"97","Vehicular violations","Other/Unknown",0.312093628088427
+"98","Vehicular violations","Black",2.67243573428353
+"99","Vehicular violations","White",0.276331172281858
+"100","Vehicular violations","Hispanic",0.736160188457008

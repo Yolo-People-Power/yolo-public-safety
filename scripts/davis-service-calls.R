@@ -9,13 +9,14 @@
   
   # Import datasets. All datasets from Davis PD, via PRR----
   
-    # Service calls 2015-2020
+    # Service calls 2015-2020. This is from 
   calls_raw <- lapply(
-    excel_sheets("./data/service-calls.xlsx"), 
-    read_excel, path = "./data/service-calls.xlsx")
+    excel_sheets("./data/service-calls-raw.xlsx"), 
+    read_excel, path = "./data/service-calls-raw.xlsx")
 
     # Disposition and incident codes
-  disp_code <- read_excel("./data/disp-code.xlsx")
+  disp_code <- read_sheet(
+    ("https://docs.google.com/spreadsheets/d/1SrhDb-rxyqIBRAQBG6anMMDuILskZcbDtiO6iP7hgcw/edit?usp=sharing"))
   disp_code <- disp_code[,1:2] 
       # Rename value field for later joining
   colnames(disp_code) <- c("d1", "disp_desc")
@@ -43,6 +44,8 @@
     inc_num, type, beat, d1, disp_desc), as.factor)
   calls_desc$time <- times(calls_desc$time)
   
+  # Export datasets----
+  write.csv(calls_desc, "./data/generated/service-calls.csv")
 
   
  

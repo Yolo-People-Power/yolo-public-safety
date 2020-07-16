@@ -1,0 +1,106 @@
+"","category","race","total_arrests"
+"1","*All arrests","Asian",167
+"2","*All arrests","Other/Unknown",190
+"3","*All arrests","Black",540
+"4","*All arrests","White",2187
+"5","*All arrests","Hispanic",841
+"6","Alcohol-related incidents","Asian",55
+"7","Alcohol-related incidents","Other/Unknown",35
+"8","Alcohol-related incidents","Black",56
+"9","Alcohol-related incidents","White",255
+"10","Alcohol-related incidents","Hispanic",150
+"11","Arson","Asian",0
+"12","Arson","Other/Unknown",2
+"13","Arson","Black",4
+"14","Arson","White",5
+"15","Arson","Hispanic",1
+"16","Assault and battery","Asian",28
+"17","Assault and battery","Other/Unknown",20
+"18","Assault and battery","Black",93
+"19","Assault and battery","White",253
+"20","Assault and battery","Hispanic",106
+"21","Burglary","Asian",3
+"22","Burglary","Other/Unknown",5
+"23","Burglary","Black",33
+"24","Burglary","White",88
+"25","Burglary","Hispanic",23
+"26","Disturbing the peace","Asian",3
+"27","Disturbing the peace","Other/Unknown",2
+"28","Disturbing the peace","Black",19
+"29","Disturbing the peace","White",40
+"30","Disturbing the peace","Hispanic",15
+"31","Drug offenses","Asian",36
+"32","Drug offenses","Other/Unknown",52
+"33","Drug offenses","Black",134
+"34","Drug offenses","White",829
+"35","Drug offenses","Hispanic",263
+"36","Homicide","Asian",0
+"37","Homicide","Other/Unknown",0
+"38","Homicide","Black",1
+"39","Homicide","White",3
+"40","Homicide","Hispanic",4
+"41","Impeding public justice","Asian",3
+"42","Impeding public justice","Other/Unknown",8
+"43","Impeding public justice","Black",10
+"44","Impeding public justice","White",45
+"45","Impeding public justice","Hispanic",18
+"46","Kidnapping/false imprisonment","Asian",6
+"47","Kidnapping/false imprisonment","Other/Unknown",4
+"48","Kidnapping/false imprisonment","Black",15
+"49","Kidnapping/false imprisonment","White",16
+"50","Kidnapping/false imprisonment","Hispanic",13
+"51","Miscellaneous","Asian",3
+"52","Miscellaneous","Other/Unknown",17
+"53","Miscellaneous","Black",25
+"54","Miscellaneous","White",74
+"55","Miscellaneous","Hispanic",40
+"56","Probation and prison violations","Asian",1
+"57","Probation and prison violations","Other/Unknown",6
+"58","Probation and prison violations","Black",7
+"59","Probation and prison violations","White",67
+"60","Probation and prison violations","Hispanic",16
+"61","Robbery","Asian",1
+"62","Robbery","Other/Unknown",2
+"63","Robbery","Black",9
+"64","Robbery","White",21
+"65","Robbery","Hispanic",14
+"66","Sentence enhancements","Asian",0
+"67","Sentence enhancements","Other/Unknown",0
+"68","Sentence enhancements","Black",4
+"69","Sentence enhancements","White",9
+"70","Sentence enhancements","Hispanic",4
+"71","Sexual assault/offenses","Asian",4
+"72","Sexual assault/offenses","Other/Unknown",3
+"73","Sexual assault/offenses","Black",4
+"74","Sexual assault/offenses","White",16
+"75","Sexual assault/offenses","Hispanic",12
+"76","Theft","Asian",11
+"77","Theft","Other/Unknown",22
+"78","Theft","Black",63
+"79","Theft","White",258
+"80","Theft","Hispanic",79
+"81","Threats to the person/child endangerment","Asian",0
+"82","Threats to the person/child endangerment","Other/Unknown",0
+"83","Threats to the person/child endangerment","Black",1
+"84","Threats to the person/child endangerment","White",1
+"85","Threats to the person/child endangerment","Hispanic",2
+"86","Trespassing","Asian",2
+"87","Trespassing","Other/Unknown",1
+"88","Trespassing","Black",4
+"89","Trespassing","White",19
+"90","Trespassing","Hispanic",4
+"91","Vandalism","Asian",2
+"92","Vandalism","Other/Unknown",1
+"93","Vandalism","Black",14
+"94","Vandalism","White",46
+"95","Vandalism","Hispanic",11
+"96","Vehicular violations","Asian",3
+"97","Vehicular violations","Other/Unknown",6
+"98","Vehicular violations","Black",21
+"99","Vehicular violations","White",52
+"100","Vehicular violations","Hispanic",35
+"101","Davis population (2019)","Asian",74293
+"102","Davis population (2019)","Other/Unknown",19225
+"103","Davis population (2019)","Black",7858
+"104","Davis population (2019)","White",188180
+"105","Davis population (2019)","Hispanic",47544

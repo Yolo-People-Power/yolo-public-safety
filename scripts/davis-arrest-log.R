@@ -12,7 +12,7 @@
   # SCRAPE/DOWNLOAD DATA TABLES----
     # Arrest log 6/15 to 6/20, from Davis PD via a Public Records Request
   davis_log_raw <- extract_tables(
-    file = "./data/davis-arrest-log.pdf",
+    file = "./data/raw/davis-arrest-log.pdf",
     method = "decide",
     output = "data.frame", 
     header = F)
@@ -991,8 +991,8 @@
                    chapter_head, category), as.factor)
   
   # EXPORT INTO REPO----
-  write.csv(davis_log_long, "./data/davis_log_long.csv")
-  write.csv(davis_arrest_cat, "./data/davis_arrest_cat.csv")
+  write.csv(davis_log_long, "./data/generated/davis_log_long.csv")
+  write.csv(davis_arrest_cat, "./data/generated/davis_arrest_cat.csv")
 
 
   

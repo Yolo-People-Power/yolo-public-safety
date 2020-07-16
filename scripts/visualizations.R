@@ -109,6 +109,8 @@ library(gglorenz)
   totals_race <- bind_rows(totals_race, totals_race_sum)
     # Pull "all arrests" to top of sort order
   totals_race <- totals_race %>% arrange(category)
+  write.csv(totals_race, "./data/generated/totals_race.csv")
+  
     # Major arrest categories, for later visualizations
   freq_arrests <- c("*All arrests", "Alcohol-related incidents", 
                     "Assault and battery",
@@ -141,7 +143,11 @@ library(gglorenz)
   
     # Add Davis population
   davis_pop <- as.vector(
-    c(15410, 4095, 1597, 9648, 38663))
+    c((15410 + 14974 + 14751 + 14729 + 14429), 
+       (4095 + 3939 + 3914 + 3385 + 3892), 
+        (1597 + 1502 + 1592 + 1784 + 1383), 
+       (9648 + 9340 + 9580 + 9570 + 9406), 
+       (38663 + 37871 + 37380 + 37195 + 37071)))
     # Normalized per 100k
   race_cat_norm <- t(t(race_cat[,2:6]) / davis_pop)
   race_cat_norm <- race_cat_norm * 1000
@@ -152,6 +158,7 @@ library(gglorenz)
     names_to = "race",
     values_to = "rate_k"
   )
+  write.csv(race_cat_norm, "./data/generated/race_cat_norm.csv")
   
     # Visualize
       # Categories at bottom
@@ -162,9 +169,9 @@ library(gglorenz)
     theme(axis.text.x=element_text(angle = 55, hjust = 1, 
                                    size = 14, vjust = 1),
           axis.ticks.x=element_blank(),
-          axis.text.y = element_text(size = 12),
-          legend.text = element_text(size = 14),
-          legend.title = element_text(size = 16)) +
+          axis.text.y = element_text(size = 14),
+          legend.text = element_text(size = 16),
+          legend.title = element_text(size = 18)) +
     xlab("") + ylab("Arrest rate/thousand people") +
     scale_fill_discrete(labels = c("Asian",
                                    "Black",
@@ -172,7 +179,7 @@ library(gglorenz)
                                    "Other/Unknown",
                                    "White"), 
                         name = "Race") +
-    scale_y_continuous(breaks=seq(0,400, by = 50))
+    scale_y_continuous(breaks=seq(0,70, by = 10))
   
       # Races at bottom
     ggplot(subset(race_cat_norm, category %in% freq_arrests)) +
@@ -192,7 +199,7 @@ library(gglorenz)
                                      "Drug offenses",
                                      "Theft"), 
                           name = "Arrest category") +
-      scale_y_continuous(breaks=seq(0, 400, by = 50))
+      scale_y_continuous(breaks=seq(0, 70, by = 10))
     
     # Alternative, stacked bar
   race_cat_pop <- rbind(race_cat, c("Davis population (2019)", davis_pop))
@@ -204,6 +211,7 @@ library(gglorenz)
   race_cat_pop <- race_cat_pop %>% mutate_at(vars(total_arrests), as.numeric)
   race_cat_pop$category <- relevel(race_cat_pop$category, 
                                    "Davis population (2019)")
+  write.csv(race_cat_pop, "./data/generated/race_cat_pop.csv")
 
 
       # All and pop only visualization
@@ -211,7 +219,17 @@ library(gglorenz)
                 category %in% c("*All arrests", "Davis population (2019)")),
          aes(fill = race, y = total_arrests*100, x = category)) +
     geom_bar(position = "fill", stat = "identity") +
-    ylab("Proportion of population") + xlab("") 
+    ylab("Proportion of population") + xlab("") +
+    theme(axis.text.x=element_text(size = 14),
+          axis.title.y = element_text(size = 14),
+          axis.ticks.x=element_blank(),
+          axis.text.y = element_text(size = 14),
+          legend.text = element_text(size = 14),
+          legend.title = element_text(size = 16)) + 
+    scale_fill_discrete(name = "Race")
+  
+  
+    
   
     # Each and pop
   ggplot(subset(race_cat_pop, 

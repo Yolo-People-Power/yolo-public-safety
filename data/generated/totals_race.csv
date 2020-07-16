@@ -1,0 +1,99 @@
+"","category","race","total_count"
+"1","(Missing data)","Asian",6
+"2","(Missing data)","Other/Unknown",4
+"3","(Missing data)","Black",23
+"4","(Missing data)","Hispanic",31
+"5","(Missing data)","White",90
+"6","*All arrests","Asian",167
+"7","*All arrests","Other/Unknown",190
+"8","*All arrests","Black",540
+"9","*All arrests","Hispanic",841
+"10","*All arrests","White",2187
+"11","Alcohol-related incidents","Asian",55
+"12","Alcohol-related incidents","Other/Unknown",35
+"13","Alcohol-related incidents","Black",56
+"14","Alcohol-related incidents","Hispanic",150
+"15","Alcohol-related incidents","White",255
+"16","Arson","Other/Unknown",2
+"17","Arson","Black",4
+"18","Arson","Hispanic",1
+"19","Arson","White",5
+"20","Assault and battery","Asian",28
+"21","Assault and battery","Other/Unknown",20
+"22","Assault and battery","Black",93
+"23","Assault and battery","Hispanic",106
+"24","Assault and battery","White",253
+"25","Burglary","Asian",3
+"26","Burglary","Other/Unknown",5
+"27","Burglary","Black",33
+"28","Burglary","Hispanic",23
+"29","Burglary","White",88
+"30","Disturbing the peace","Asian",3
+"31","Disturbing the peace","Other/Unknown",2
+"32","Disturbing the peace","Black",19
+"33","Disturbing the peace","Hispanic",15
+"34","Disturbing the peace","White",40
+"35","Drug offenses","Asian",36
+"36","Drug offenses","Other/Unknown",52
+"37","Drug offenses","Black",134
+"38","Drug offenses","Hispanic",263
+"39","Drug offenses","White",829
+"40","Homicide","Black",1
+"41","Homicide","Hispanic",4
+"42","Homicide","White",3
+"43","Impeding public justice","Asian",3
+"44","Impeding public justice","Other/Unknown",8
+"45","Impeding public justice","Black",10
+"46","Impeding public justice","Hispanic",18
+"47","Impeding public justice","White",45
+"48","Kidnapping/false imprisonment","Asian",6
+"49","Kidnapping/false imprisonment","Other/Unknown",4
+"50","Kidnapping/false imprisonment","Black",15
+"51","Kidnapping/false imprisonment","Hispanic",13
+"52","Kidnapping/false imprisonment","White",16
+"53","Miscellaneous","Asian",3
+"54","Miscellaneous","Other/Unknown",17
+"55","Miscellaneous","Black",25
+"56","Miscellaneous","Hispanic",40
+"57","Miscellaneous","White",74
+"58","Probation and prison violations","Asian",1
+"59","Probation and prison violations","Other/Unknown",6
+"60","Probation and prison violations","Black",7
+"61","Probation and prison violations","Hispanic",16
+"62","Probation and prison violations","White",67
+"63","Robbery","Asian",1
+"64","Robbery","Other/Unknown",2
+"65","Robbery","Black",9
+"66","Robbery","Hispanic",14
+"67","Robbery","White",21
+"68","Sentence enhancements","Black",4
+"69","Sentence enhancements","Hispanic",4
+"70","Sentence enhancements","White",9
+"71","Sexual assault/offenses","Asian",4
+"72","Sexual assault/offenses","Other/Unknown",3
+"73","Sexual assault/offenses","Black",4
+"74","Sexual assault/offenses","Hispanic",12
+"75","Sexual assault/offenses","White",16
+"76","Theft","Asian",11
+"77","Theft","Other/Unknown",22
+"78","Theft","Black",63
+"79","Theft","Hispanic",79
+"80","Theft","White",258
+"81","Threats to the person/child endangerment","Black",1
+"82","Threats to the person/child endangerment","Hispanic",2
+"83","Threats to the person/child endangerment","White",1
+"84","Trespassing","Asian",2
+"85","Trespassing","Other/Unknown",1
+"86","Trespassing","Black",4
+"87","Trespassing","Hispanic",4
+"88","Trespassing","White",19
+"89","Vandalism","Asian",2
+"90","Vandalism","Other/Unknown",1
+"91","Vandalism","Black",14
+"92","Vandalism","Hispanic",11
+"93","Vandalism","White",46
+"94","Vehicular violations","Asian",3
+"95","Vehicular violations","Other/Unknown",6
+"96","Vehicular violations","Black",21
+"97","Vehicular violations","Hispanic",35
+"98","Vehicular violations","White",52
