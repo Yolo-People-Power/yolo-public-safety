@@ -74,14 +74,14 @@ library(gglorenz)
               vjust=-0.25, size = 4) +
     xlab("") + labs(fill = "Arrest category")
   
-  # CRIMES BY RACE & CATEGORY----
-  totals_race <- davis_arrest_cat 
+  # ARRESTS BY RACE & CATEGORY----
+  race_totals <- davis_arrest_cat 
     # Change NA to "Missing"
-  totals_race$category <- `levels<-`(addNA(totals_race$category), 
-                                c(levels(totals_race$category), 
+  race_totals$category <- `levels<-`(addNA(race_totals$category), 
+                                c(levels(race_totals$category), 
                                   "(Missing data)"))
     # Collapse Asian race category
-  totals_race$race <- recode_factor(totals_race$race, 
+  race_totals$race <- recode_factor(race_totals$race, 
                   "Asian Indian" = "Asian",
                   "Chinese" = "Asian",
                   "Filipino" = "Asian",
@@ -97,27 +97,30 @@ library(gglorenz)
                   "Pacific" = "Other/Unknown",
                   "Unknown" = "Other/Unknown")
     # Choose filters
-  totals_race <- totals_race %>%     
+  race_totals <- race_totals %>%     
     filter(date > "2015-01-01" & date < "2021-01-01") %>%
     filter(race %in% 
              c("White", "Black", "Asian", "Hispanic", "Other/Unknown")) %>%
     dplyr::count(category, race, name = "total_count")
     # Create and bind totals rows, add percent by race
-  totals_race_sum <- totals_race %>% group_by(race) %>%
+  race_totals_sum <- race_totals %>% group_by(race) %>%
     dplyr::summarize(total_count = sum(total_count))
-  totals_race_sum$category <- "*All arrests"
-  totals_race <- bind_rows(totals_race, totals_race_sum)
+  race_totals_sum$category <- "*All arrests"
+  race_totals <- bind_rows(race_totals, race_totals_sum)
     # Pull "all arrests" to top of sort order
-  totals_race <- totals_race %>% arrange(category)
-  write.csv(totals_race, "./data/generated/totals_race.csv")
+  race_totals <- race_totals %>% arrange(category)
+  write.csv(race_totals, "./data/generated/race_totals.csv")
   
     # Major arrest categories, for later visualizations
-  freq_arrests <- c("*All arrests", "Alcohol-related incidents", 
+  freq_arrests <- c("Alcohol-related incidents", 
                     "Assault and battery",
                     "Drug offenses", "Theft")
+  freq_arrests_all <- c("*All arrests", "Alcohol-related incidents", 
+                        "Assault and battery",
+                        "Drug offenses", "Theft")
   
     # Visualizations, totals by race
-  ggplot(subset(totals_race, category %in% freq_arrests)) +
+  ggplot(subset(race_totals, category %in% freq_arrests_all)) +
     geom_col(aes(x = category, y = total_count, 
                  group = race, fill = race),
              position = "dodge") +
@@ -133,7 +136,7 @@ library(gglorenz)
   
   # RACE/ARREST RATIOS BY CATEGORY---
     # Reshape to create race columns
-  race_cat <- totals_race %>% pivot_wider(names_from = race,
+  race_cat <- race_totals %>% pivot_wider(names_from = race,
                                       values_from = total_count,
                                       values_fill = 0)
     # Remove missing, pull "all" to top of sort order
@@ -162,7 +165,7 @@ library(gglorenz)
   
     # Visualize
       # Categories at bottom
-  ggplot(subset(race_cat_norm, category %in% freq_arrests)) +
+  ggplot(subset(race_cat_norm, category %in% freq_arrests_all)) +
     geom_col(aes(x = category, y = rate_k, 
                  group = race, fill = race),
              position = "dodge") +
@@ -180,6 +183,27 @@ library(gglorenz)
                                    "White"), 
                         name = "Race") +
     scale_y_continuous(breaks=seq(0,70, by = 10))
+  
+          # Categories at bottom, disagg only
+  
+  ggplot(subset(race_cat_norm, category %in% freq_arrests)) +
+    geom_col(aes(x = category, y = rate_k, 
+                 group = race, fill = race),
+             position = "dodge") +
+    theme(axis.text.x=element_text(angle = 55, hjust = 1, 
+                                   size = 14, vjust = 1),
+          axis.ticks.x=element_blank(),
+          axis.text.y = element_text(size = 14),
+          legend.text = element_text(size = 16),
+          legend.title = element_text(size = 18)) +
+    xlab("") + ylab("Arrest rate/thousand people") +
+    scale_fill_discrete(labels = c("Asian",
+                                   "Black",
+                                   "Hispanic",
+                                   "Other/Unknown",
+                                   "White"), 
+                        name = "Race") +
+    scale_y_continuous(breaks=seq(0,20, by = 2))
   
       # Races at bottom
     ggplot(subset(race_cat_norm, category %in% freq_arrests)) +
@@ -303,161 +327,4 @@ library(gglorenz)
                         name = "Racial arrest ratio") +
     geom_hline(yintercept = 1, color = "grey10", linetype = "dashed") +
     scale_y_continuous(breaks=seq(0,10, by =1)) 
-  
-  
-  # UNUSED OLD CODE----
-  # Distribution of charges
-  # charge_gini <- davis_arrest_cat  %>% count(indiv_id)
-  # 
-  # ggplot(charge_gini, aes(n)) + 
-  #   stat_lorenz(desc = T) +
-  #   xlab("% of people arrested") + 
-  #   ylab("% of charges filed") +
-  #   hrbrthemes::scale_x_percent() +
-  #   hrbrthemes::scale_y_percent() +
-  #   theme(axis.title.x = element_text(size=16),
-  #         axis.title.y = element_text(size=16),
-  #         axis.text.x = element_text(size=16),
-  #         axis.text.y = element_text(size=16),
-  #         plot.margin = unit(c(1,1,1,1), "cm")) +
-  #   theme(panel.grid.major = element_line(colour = "grey"))
-  
-  # # Race/arrest ratios by severity
-  # race_cat_sev <- dcast(totals_race_sev, severity ~ race, value.var = "total_count",
-  #                      fun.aggregate = sum)
-  # 
-  # # Remove missing, pull "all" to top of sort order
-  # race_cat_sev <- subset(race_cat_sev, severity != "(Missing data)")
-  # race_cat_sev$severity[race_cat_sev$severity=="All"] <- "[All]"
-  # race_cat_sev <- race_cat_sev %>% arrange(severity)
-  # 
-  # # Calculate raw fractions of arrests by race
-  # race_cat_sev$asian_frac <- race_cat_sev$Asian/
-  #   (race_cat_sev$Asian + race_cat_sev$Black + race_cat_sev$Hispanic +
-  #      race_cat_sev$`Other/Unknown` + race_cat_sev$White)
-  # race_cat_sev$black_frac <- race_cat_sev$Black/
-  #   (race_cat_sev$Asian + race_cat_sev$Black + race_cat_sev$Hispanic +
-  #      race_cat_sev$`Other/Unknown` + race_cat_sev$White)
-  # race_cat_sev$hispanic_frac <- race_cat_sev$Hispanic/
-  #   (race_cat_sev$Asian + race_cat_sev$Black + race_cat_sev$Hispanic +
-  #      race_cat_sev$`Other/Unknown` + race_cat_sev$White)
-  # race_cat_sev$other_frac <- race_cat_sev$`Other/Unknown`/
-  #   (race_cat_sev$Asian + race_cat_sev$Black + race_cat_sev$Hispanic +
-  #      race_cat_sev$`Other/Unknown` + race_cat_sev$White)
-  # race_cat_sev$white_frac <- race_cat_sev$White/
-  #   (race_cat_sev$Asian + race_cat_sev$Black + race_cat_sev$Hispanic +
-  #      race_cat_sev$`Other/Unknown` + race_cat_sev$White)
-  # 
-  # # Compare with population information from 2010 census, 2019 projections. 
-  # # >=2 races included in "other."
-  # # Source: https://www.census.gov/quickfacts/fact/table/daviscitycalifornia,US/PST045219
-  # 
-  # # Arrest rate: arrest fraction relative to population fraction
-  # race_cat_sev$asian_ratio<- race_cat_sev$asian_frac/.222
-  # race_cat_sev$black_ratio <- race_cat_sev$black_frac/.023
-  # race_cat_sev$hisp_ratio <- race_cat_sev$hispanic_frac/.139
-  # race_cat_sev$other_ratio <- race_cat_sev$other_frac/.072
-  # race_cat_sev$white_ratio <- race_cat_sev$white_frac/.557
-  # 
-  # # Ratio of arrest rates, by race and severity
-  # race_cat_sev$asian_white <- race_cat_sev$asian_ratio/
-  #   race_cat_sev$white_ratio
-  # race_cat_sev$black_white <- race_cat_sev$black_ratio/
-  #   race_cat_sev$white_ratio
-  # race_cat_sev$hisp_white <- race_cat_sev$hisp_ratio/
-  #   race_cat_sev$white_ratio
-  # race_cat_sev$other_white <- race_cat_sev$other_ratio/
-  #   race_cat_sev$white_ratio
-  # 
-  # race_cat_sev$asian_white <- round(race_cat_sev$asian_white, 2)
-  # race_cat_sev$black_white <- round(race_cat_sev$black_white, 2)
-  # race_cat_sev$hisp_white <- round(race_cat_sev$hisp_white, 2)
-  # race_cat_sev$other_white <- round(race_cat_sev$other_white, 2)
-  # 
-  # # Reshape for plots
-  # race_cat_sev_long <- melt(race_cat_sev[, c(1, 17:20)], 
-  #                              id.vars = "severity")
-  # 
-  # # Visualizations
-  # # Restricting to major arrest categories
-  # 
-  # ggplot(race_cat_sev_long) +
-  #   geom_col(aes(x = severity, y = value, 
-  #                group = variable,fill = variable),
-  #            position = "dodge") +
-  #   theme(axis.text.x=element_text(angle = 55, hjust = 1, 
-  #                                  size = 14, vjust = 1),
-  #         axis.ticks.x=element_blank(),
-  #         axis.text.y = element_text(size = 12),
-  #         legend.text = element_text(size = 14),
-  #         legend.title = element_text(size = 16)) +
-  #   xlab("") + ylab("Arrest ratio") +
-  #   scale_fill_discrete(labels = c("Asian-White",
-  #                                  "Black-White",
-  #                                  "Other-White",
-  #                                  "Hispanic-White"), 
-  #                       name = "Racial arrest ratio") +
-  #   geom_hline(yintercept = 1, color = "grey10", linetype = "dashed") +
-  #   scale_y_continuous(breaks=seq(0,10, by =1))
-  # 
-  # 
-  # # # Crimes by race & severity [NEED TO REWORK SEVERITY FIELD IS USING BELOW]
-  # totals_race_sev <- davis_arrest_cat 
-  # 
-  # # Change NA to "Missing"
-  # totals_race_sev$severity <- `levels<-`(addNA(totals_race_sev$severity), 
-  #                                    c(levels(totals_race_sev$severity), 
-  #                                      "(Missing data)"))
-  # 
-  # # Collapse Asian race severity
-  # totals_race_sev$race <- recode_factor(totals_race_sev$race, 
-  #                                   "Asian Indian" = "Asian",
-  #                                   "Chinese" = "Asian",
-  #                                   "Filipino" = "Asian",
-  #                                   "Japanese" = "Asian",
-  #                                   "Korean" = "Asian",
-  #                                   "Other Asian" = "Asian",
-  #                                   "Vietnamese" = "Asian",
-  #                                   "Laotian" = "Asian",
-  #                                   "Hawaiian" = "Other/Unknown",
-  #                                   "Indian/Nativ" = "Other/Unknown",
-  #                                   "Missing" = "Other/Unknown",
-  #                                   "Other" = "Other/Unknown",
-  #                                   "Pacific" = "Other/Unknown",
-  #                                   "Unknown" = "Other/Unknown")
-  # 
-  # # Choose filters
-  # totals_race_sev <- totals_race_sev %>%     
-  #   filter(date > "2015-01-01" & date < "2021-01-01") %>%
-  #   filter(race %in% 
-  #            c("White", "Black", "Asian", "Hispanic", "Other/Unknown")) %>%
-  #   count(severity, race, name = "total_count")
-  # 
-  # # Create and bind totals rows, add percent by race
-  # totals_race_sev_sum <- totals_race_sev %>% group_by(race) %>%
-  #   summarize(total_count = sum(total_count))
-  # totals_race_sev_sum$severity <- "All"
-  # totals_race_sev <- bind_rows(totals_race_sev, totals_race_sev_sum)
-  # 
-  # # Delete missing, pull "all" to top of sort order
-  # totals_race_sev <- subset(totals_race_sev, 
-  #                                    severity != "(Missing data)")
-  # totals_race_sev$severity[totals_race_sev$severity=="All"] <- "[All]"
-  # totals_race_sev <- totals_race_sev %>% arrange(severity)
-  # 
-  # # Visualizations, totals by race
-  # ggplot(subset(totals_race_sev, severity %in% freq_arrests)) +
-  #   geom_col(aes(x = severity, y = total_count, 
-  #                group = race, fill = race),
-  #            position = "dodge") +
-  #   theme(axis.text.x=element_text(angle = 55, hjust = 1, 
-  #                                  size = 14, vjust = 1),
-  #         axis.ticks.x=element_blank(),
-  #         axis.text.y = element_text(size = 12),
-  #         legend.text = element_text(size = 12),
-  #         legend.title = element_text(size = 14)) +
-  #   xlab("") + ylab("Total arrests") +
-  #   scale_fill_discrete(name = "Race") +
-  #   scale_y_continuous(breaks=seq(0,3000, by = 500))
-  
   
