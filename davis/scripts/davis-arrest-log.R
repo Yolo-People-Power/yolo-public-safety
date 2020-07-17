@@ -1,18 +1,19 @@
   library(tabulizer)
   library(rJava)
   library(tidyverse)
-  library(reshape2)
   library(googlesheets4)
   library(data.table)
   library(lubridate)
+
   
   # Change working directory to your local R project folder
-  setwd("/Users/bapu/Projects/watershed/action/public-safety/ssc-analysis")
+  setwd(
+    "/Users/bapu/Projects/watershed/action/public-safety/yolo/analysis/davis/")
   
   # SCRAPE/DOWNLOAD DATA TABLES----
     # Arrest log 6/15 to 6/20, from Davis PD via a Public Records Request
   davis_log_raw <- extract_tables(
-    file = "./data/raw/davis-arrest-log.pdf",
+    file = "./data/raw/davis-arrest-log-raw.pdf",
     method = "decide",
     output = "data.frame", 
     header = F)
@@ -22,6 +23,7 @@
     header = FALSE)
     # Crime sentencing (felony/misdemeanor) severity 
     # File is manually constructed from sentence field in le_code_raw
+    # You will be asked to confirm email for Google sheets access
   severity <- read_sheet(
     "https://docs.google.com/spreadsheets/d/1arqMRPvlznsOTjmrRYr2EEucXNydZrLpqz7L4eD5iyY/edit?usp=sharing")
     # Arrest categories for charges included in Davis arrest log only 
@@ -35,10 +37,12 @@
     # Rename columns
   colnames <- c("date", "charge1", "charge2", "charge3", "sex", "race", "age")
   davis_log <- lapply(davis_log_raw, setNames, colnames)
+    # Remove redundant and blank rows
+  davis_log[[1]] <- davis_log[[1]][-1,]
+  davis_log[[67]] <- davis_log[[67]][-15,]
+  davis_log <- lapply(davis_log, transform, age = as.numeric(age))
     # Bind list into one data frame
-  davis_log <- rbind.fill(davis_log)
-    # Remove old column name row, blank final row
-  davis_log <- davis_log[c(-1, -2852),]
+  davis_log <- bind_rows(davis_log)
     # Renumber rows & add individual ID column with row numbers
   rownames(davis_log) <- 1:nrow(davis_log)
   davis_log <- cbind("indiv_id" = rownames(davis_log), data.frame(davis_log))
@@ -966,9 +970,9 @@
    mutate_at(vars(ca_code, section_full, section, subsection1, subsection2,
              subsection3, subsection4, subsection5, description, sentence, 
              sec_code, part, part_head, title, title_head, chapter, chapter_head,
-             division, division_head, severity, id), as.factor)
+             division, division_head, severity), as.factor)
     # Reshape multiple sec_code rows into single row 
-  le_code <- le_code %>% group_by(sec_code) %>% dplyr::mutate(id = row_number())
+  le_code <- le_code %>% group_by(sec_code) %>% mutate(id = row_number())
   le_code <- le_code %>%
     pivot_wider(names_from = id, 
                 values_from = c(description, sentence, severity))
@@ -992,7 +996,6 @@
   
   # EXPORT INTO REPO----
   write.csv(davis_log_long, "./data/generated/davis_log_long.csv")
-  write.csv(davis_arrest_cat, "./data/generated/davis_arrest_cat.csv")
 
 
   

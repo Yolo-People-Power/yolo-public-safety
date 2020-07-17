@@ -5,16 +5,17 @@
   library(chron)
   library(googlesheets4)
   
-  setwd("/Users/bapu/Projects/watershed/action/public-safety/davis/ssc-analysis")
+ setwd("/Users/bapu/Projects/watershed/action/public-safety/yolo/analysis/davis/")
   
   # Import datasets. All datasets from Davis PD, via PRR----
   
     # Service calls 2015-2020. This is from 
   calls_raw <- lapply(
-    excel_sheets("./data/service-calls-raw.xlsx"), 
-    read_excel, path = "./data/service-calls-raw.xlsx")
+    excel_sheets("./data/raw/service-calls-raw.xlsx"), 
+    read_excel, path = "./data/raw/service-calls-raw.xlsx")
 
     # Disposition and incident codes
+    # You will be asked to confirm email for Google sheets access
   disp_code <- read_sheet(
     ("https://docs.google.com/spreadsheets/d/1SrhDb-rxyqIBRAQBG6anMMDuILskZcbDtiO6iP7hgcw/edit?usp=sharing"))
   disp_code <- disp_code[,1:2] 

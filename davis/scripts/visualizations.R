@@ -1,8 +1,5 @@
 library(tidyverse)
 library(ggplot2)
-library(reshape2)
-library(ineq)
-library(gglorenz)
 
 
   # SERVICE CALLS-----
@@ -53,6 +50,9 @@ library(gglorenz)
   freq_arrests <- c("All arrests", "Alcohol-related incidents", 
                     "Assault and battery",
                     "Drug offenses", "Theft")
+  # Export
+  write.csv(davis_arrest_cat, "./data/generated/davis_arrest_cat.csv")
+  
   
     # Generate plot
   ggplot(totals) + 
