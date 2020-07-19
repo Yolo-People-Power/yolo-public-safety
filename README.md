@@ -1,7 +1,7 @@
-# ssc-public-safety
-Davis public safety/social services commission analysis  
+# yolo-public-safety
+Yolo County public safety analysis  
 
-This repository contains data on public safety and social services in Davis, CA.  
+This repository contains data on public safety and social services in Yolo County, CA, including city-level data for Davis, West Sacramento, Winters, and Woodland. Each geographical unit contains the same subfolder structure, described below.
 
 ## data
 
