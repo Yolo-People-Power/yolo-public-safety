@@ -1,24 +1,24 @@
 "","category","race","total_arrests"
 "1","*All arrests","Asian",167
-"2","*All arrests","Other/Unknown",190
-"3","*All arrests","Black",540
-"4","*All arrests","White",2187
+"2","*All arrests","Other/Unknown",189
+"3","*All arrests","Black",537
+"4","*All arrests","White",2181
 "5","*All arrests","Hispanic",841
-"6","Alcohol-related incidents","Asian",55
-"7","Alcohol-related incidents","Other/Unknown",35
-"8","Alcohol-related incidents","Black",56
-"9","Alcohol-related incidents","White",255
-"10","Alcohol-related incidents","Hispanic",150
+"6","Alcohol-related incidents","Asian",53
+"7","Alcohol-related incidents","Other/Unknown",34
+"8","Alcohol-related incidents","Black",46
+"9","Alcohol-related incidents","White",211
+"10","Alcohol-related incidents","Hispanic",139
 "11","Arson","Asian",0
-"12","Arson","Other/Unknown",2
-"13","Arson","Black",4
-"14","Arson","White",5
-"15","Arson","Hispanic",1
+"12","Arson","Other/Unknown",1
+"13","Arson","Black",1
+"14","Arson","White",3
+"15","Arson","Hispanic",0
 "16","Assault and battery","Asian",28
-"17","Assault and battery","Other/Unknown",20
-"18","Assault and battery","Black",93
-"19","Assault and battery","White",253
-"20","Assault and battery","Hispanic",106
+"17","Assault and battery","Other/Unknown",18
+"18","Assault and battery","Black",89
+"19","Assault and battery","White",226
+"20","Assault and battery","Hispanic",98
 "21","Burglary","Asian",3
 "22","Burglary","Other/Unknown",5
 "23","Burglary","Black",33
@@ -97,10 +97,15 @@
 "96","Vehicular violations","Asian",3
 "97","Vehicular violations","Other/Unknown",6
 "98","Vehicular violations","Black",21
-"99","Vehicular violations","White",52
+"99","Vehicular violations","White",53
 "100","Vehicular violations","Hispanic",35
-"101","Davis population (2019)","Asian",74293
-"102","Davis population (2019)","Other/Unknown",19225
-"103","Davis population (2019)","Black",7858
-"104","Davis population (2019)","White",188180
-"105","Davis population (2019)","Hispanic",47544
+"101","Weapons","Asian",2
+"102","Weapons","Other/Unknown",3
+"103","Weapons","Black",14
+"104","Weapons","White",66
+"105","Weapons","Hispanic",20
+"106","Davis population (2019)","Asian",74293
+"107","Davis population (2019)","Other/Unknown",19225
+"108","Davis population (2019)","Black",7858
+"109","Davis population (2019)","White",188180
+"110","Davis population (2019)","Hispanic",47544

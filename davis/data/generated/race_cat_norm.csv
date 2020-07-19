@@ -1,24 +1,24 @@
 "","category","race","rate_k"
 "1","*All arrests","Asian",2.24785646023178
-"2","*All arrests","Other/Unknown",9.88296488946684
-"3","*All arrests","Black",68.7197760244337
-"4","*All arrests","White",11.6218514188543
+"2","*All arrests","Other/Unknown",9.83094928478543
+"3","*All arrests","Black",68.3379994909646
+"4","*All arrests","White",11.5899670528218
 "5","*All arrests","Hispanic",17.6888776712098
-"6","Alcohol-related incidents","Asian",0.740312007860767
-"7","Alcohol-related incidents","Other/Unknown",1.82054616384915
-"8","Alcohol-related incidents","Black",7.12649529142275
-"9","Alcohol-related incidents","White",1.35508555638219
-"10","Alcohol-related incidents","Hispanic",3.15497223624432
+"6","Alcohol-related incidents","Asian",0.713391571211285
+"7","Alcohol-related incidents","Other/Unknown",1.76853055916775
+"8","Alcohol-related incidents","Black",5.85390684652583
+"9","Alcohol-related incidents","White",1.12126687214369
+"10","Alcohol-related incidents","Hispanic",2.9236076055864
 "11","Arson","Asian",0
-"12","Arson","Other/Unknown",0.104031209362809
-"13","Arson","Black",0.509035377958768
-"14","Arson","White",0.0265703050271017
-"15","Arson","Hispanic",0.0210331482416288
+"12","Arson","Other/Unknown",0.0520156046814044
+"13","Arson","Black",0.127258844489692
+"14","Arson","White",0.015942183016261
+"15","Arson","Hispanic",0
 "16","Assault and battery","Asian",0.376886113092754
-"17","Assault and battery","Other/Unknown",1.04031209362809
-"18","Assault and battery","Black",11.8350725375414
-"19","Assault and battery","White",1.34445743437135
-"20","Assault and battery","Hispanic",2.22951371361265
+"17","Assault and battery","Other/Unknown",0.93628088426528
+"18","Assault and battery","Black",11.3260371595826
+"19","Assault and battery","White",1.200977787225
+"20","Assault and battery","Hispanic",2.06124852767962
 "21","Burglary","Asian",0.0403806549742237
 "22","Burglary","Other/Unknown",0.260078023407022
 "23","Burglary","Black",4.19954186815984
@@ -97,5 +97,10 @@
 "96","Vehicular violations","Asian",0.0403806549742237
 "97","Vehicular violations","Other/Unknown",0.312093628088427
 "98","Vehicular violations","Black",2.67243573428353
-"99","Vehicular violations","White",0.276331172281858
+"99","Vehicular violations","White",0.281645233287278
 "100","Vehicular violations","Hispanic",0.736160188457008
+"101","Weapons","Asian",0.0269204366494825
+"102","Weapons","Other/Unknown",0.156046814044213
+"103","Weapons","Black",1.78162382285569
+"104","Weapons","White",0.350728026357743
+"105","Weapons","Hispanic",0.420662964832576

@@ -57,7 +57,8 @@
                          "White", davis_log$race)
   davis_log$race <- gsub("OIsltahnedr eArsian", 
                          "Other Asian", davis_log$race)
-  
+  davis_log$race[1849] <- "Other"
+
   # RESHAPE/PREP ARREST LOG----
     # Melt into single charge column
   davis_log_long <- davis_log %>% 
@@ -996,6 +997,41 @@
   
   # EXPORT INTO REPO----
   write.csv(davis_log_long, "./data/generated/davis_log_long.csv")
+  
+  # EXTRA TABLES----
+    # Drug offenses
+  drug_charges <- subset(davis_log_long, category ==
+                           "Drug offenses")
+  drug_charges <- drug_charges[,c(24:27)]
+      # Delete duplicates
+  drug_charges <- drug_charges %>% mutate(
+    description_2 = ifelse(
+      description_1 == description_2 | 
+        description_3 == description_2 | 
+        description_4== description_2,
+      NA,
+      as.character(.$description_2)))
+  
+  drug_charges <- drug_charges %>% mutate(
+    description_3 = ifelse(
+      description_1 == description_3 | 
+        description_4== description_3,
+      NA,
+      as.character(.$description_3)))
+  
+  drug_charges <- drug_charges %>% mutate(
+    description_4 = ifelse(
+      description_1 == description_4,
+      NA,
+      as.character(.$description_4)))
+  
+  # Alcohol-related incidents
+  alco_charges <- subset(davis_log_long, category ==
+                           "Alcohol-related incidents")
+  alco_charges <- alco_charges[,c(24:27)]
+    # Duplicates irrelevant, only description_1 needed
+  
+  
 
 
   
