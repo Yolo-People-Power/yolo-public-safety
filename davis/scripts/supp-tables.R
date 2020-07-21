@@ -1,5 +1,11 @@
+library(tidyverse)
+library(googlesheets4)
+library(data.table)
+library(lubridate)
+
   
-  # SERVICE CALLS BY CHARGE CATEGORY----
+
+# SERVICE CALLS BY CHARGE CATEGORY----
   # Create aggregate datasets
   calls_sum <- calls_desc %>% count(broad_cat)
   # Order factor levels
@@ -50,7 +56,7 @@
     (1597 + 1502 + 1592 + 1784 + 1383), 
     (9648 + 9340 + 9580 + 9570 + 9406)))
   arrest_race$rate <- (arrest_race$arrests/arrest_race$pop)*1000
-  
+
   
   # CHARGES BY CATEGORY----
   
@@ -183,87 +189,163 @@
                                    "Davis population (2019)")
   write.csv(race_cat_pop, "./data/generated/race_cat_pop.csv")
   
-  # ARREST RATIOS----
-    # Calculate raw fractions of arrests by race
-  race_ratio <- race_cat
-  race_ratio$asian_frac <- race_ratio$Asian/
-    (race_ratio$Asian + race_ratio$Black + race_ratio$Hispanic +
-       race_ratio$`Other/Unknown` + race_ratio$White)
-  race_ratio$black_frac <- race_ratio$Black/
-    (race_ratio$Asian + race_ratio$Black + race_ratio$Hispanic +
-       race_ratio$`Other/Unknown` + race_ratio$White)
-  race_ratio$hispanic_frac <- race_ratio$Hispanic/
-    (race_ratio$Asian + race_ratio$Black + race_ratio$Hispanic +
-       race_ratio$`Other/Unknown` + race_ratio$White)
-  race_ratio$other_frac <- race_ratio$`Other/Unknown`/
-    (race_ratio$Asian + race_ratio$Black + race_ratio$Hispanic +
-       race_ratio$`Other/Unknown` + race_ratio$White)
-  race_ratio$white_frac <- race_ratio$White/
-    (race_ratio$Asian + race_ratio$Black + race_ratio$Hispanic +
-       race_ratio$`Other/Unknown` + race_ratio$White)
-  
-    # Compare with population information from 2010 census, 2019 projections. 
-    # >=2 races included in "other."
-    # Source: https://www.census.gov/quickfacts/fact/table/daviscitycalifornia,US/PST045219
-  
-    # Arrest rate: arrest fraction relative to population fraction
-  race_ratio$asian_ratio<- race_ratio$asian_frac/.222
-  race_ratio$black_ratio <- race_ratio$black_frac/.023
-  race_ratio$hisp_ratio <- race_ratio$hispanic_frac/.139
-  race_ratio$other_ratio <- race_ratio$other_frac/.072
-  race_ratio$white_ratio <- race_ratio$white_frac/.557
-  
-    # Ratio of arrest rates, by race and category
-  race_ratio$asian_white <- race_ratio$asian_ratio/race_ratio$white_ratio
-  race_ratio$black_white <- race_ratio$black_ratio/race_ratio$white_ratio
-  race_ratio$hisp_white <- race_ratio$hisp_ratio/race_ratio$white_ratio
-  race_ratio$other_white <- race_ratio$other_ratio/race_ratio$white_ratio
-  
-  race_ratio$asian_white <- round(race_ratio$asian_white, 2)
-  race_ratio$black_white <- round(race_ratio$black_white, 2)
-  race_ratio$hisp_white <- round(race_ratio$hisp_white, 2)
-  race_ratio$other_white <- round(race_ratio$other_white, 2)
-  
-    # Reshape for plots
-  race_ratio_long <- melt(race_ratio[, c(1, 17:20)], id.vars = "category")
-  
   # DRUG CHARGES----
   drug_charges <- subset(davis_log_long, category ==
                            "Drug offenses")
-  drug_charges <- drug_charges[,c(24:27)]
+  drug_charges <- drug_charges[,c("date", "description_1")]
+  drug_charges$date <- year(drug_charges$date)
+  drug_charges$race <- recode_factor(drug_charges$race, 
+                                    "Asian Indian" = "Asian",
+                                    "Chinese" = "Asian",
+                                    "Filipino" = "Asian",
+                                    "Japanese" = "Asian",
+                                    "Korean" = "Asian",
+                                    "Other Asian" = "Asian",
+                                    "Vietnamese" = "Asian",
+                                    "Laotian" = "Asian",
+                                    "Hawaiian" = "Other/Unknown",
+                                    "Indian/Nativ" = "Other/Unknown",
+                                    "Missing" = "Other/Unknown",
+                                    "Other" = "Other/Unknown",
+                                    "Pacific" = "Other/Unknown",
+                                    "Unknown" = "Other/Unknown")
+  drug_charges <- drug_charges %>% count(date, description_1)
+  drug_wide <- drug_charges %>% 
+    pivot_wider(names_from = date,
+                values_from = n,
+                values_fill = 0)
+    # By broad type
+  drug_ch_race <- subset(davis_log_long, category ==
+                           "Drug offenses")
+  drug_ch_race <- drug_ch_race[,c("race", "description_1")]
+  drug_ch_race$race <- recode_factor(drug_ch_race$race, 
+                                     "Asian Indian" = "Asian",
+                                     "Chinese" = "Asian",
+                                     "Filipino" = "Asian",
+                                     "Japanese" = "Asian",
+                                     "Korean" = "Asian",
+                                     "Other Asian" = "Asian",
+                                     "Vietnamese" = "Asian",
+                                     "Laotian" = "Asian",
+                                     "Hawaiian" = "Other/Unknown",
+                                     "Indian/Nativ" = "Other/Unknown",
+                                     "Missing" = "Other/Unknown",
+                                     "Other" = "Other/Unknown",
+                                     "Pacific" = "Other/Unknown",
+                                     "Unknown" = "Other/Unknown")
+    # import categorization
+  drug_ch_type <- read_sheet(
+    "https://docs.google.com/spreadsheets/d/1skKAGQRg6SqeUU_M3zhLPHwOsgHdjN70USpoKXXzcP4/edit?usp=sharing")
+    # Join charges and types
+  drug_ch_type <- left_join(drug_ch_race, drug_ch_type, by = "description_1")
+  drug_ch_type <- drug_ch_type %>% count(race, type)
+  drug_ch_type <- drug_ch_type %>% drop_na
+  
   # Delete duplicates
-  drug_charges <- drug_charges %>% mutate(
-    description_2 = ifelse(
-      description_1 == description_2 | 
-        description_3 == description_2 | 
-        description_4== description_2,
-      NA,
-      as.character(.$description_2)))
+  # drug_charges <- drug_charges %>% mutate(
+  #   description_2 = ifelse(
+  #     description_1 == description_2 | 
+  #       description_3 == description_2 | 
+  #       description_4== description_2,
+  #     NA,
+  #     as.character(.$description_2)))
+  # 
+  # drug_charges <- drug_charges %>% mutate(
+  #   description_3 = ifelse(
+  #     description_1 == description_3 | 
+  #       description_4== description_3,
+  #     NA,
+  #     as.character(.$description_3)))
+  # 
+  # drug_charges <- drug_charges %>% mutate(
+  #   description_4 = ifelse(
+  #     description_1 == description_4,
+  #     NA,
+  #     as.character(.$description_4)))
+  # wide format for race analysis
   
-  drug_charges <- drug_charges %>% mutate(
-    description_3 = ifelse(
-      description_1 == description_3 | 
-        description_4== description_3,
-      NA,
-      as.character(.$description_3)))
-  
-  drug_charges <- drug_charges %>% mutate(
-    description_4 = ifelse(
-      description_1 == description_4,
-      NA,
-      as.character(.$description_4)))
-  
+
   # ALCOHOL CHARGES-----
   alco_charges <- subset(davis_log_long, category ==
                            "Alcohol-related incidents")
-  alco_charges <- alco_charges[,c(24:27)]
+  alco_charges <- alco_charges[,c(4,24)]
    # Duplicates irrelevant, only description_1 needed
   
-  # Arrests by age/race----
+  # ARRESTS BY AGE/RACE----
     # Download davis_pop_tables
-  age_race <- read_sheet(
+  age_race_pop <- read_sheet(
     "https://docs.google.com/spreadsheets/d/1BzpwqzWVDZeNHHlTFHNgH-C4RKosAoks7HN5EusBZ2o/edit?usp=sharing"
+  , sheet = "org_census_groups")
+  age_race_pop$age_group <- as.factor(age_race_pop$age_group)
+
+  
+    # Reshape for later join
+  age_race_pop <- age_race_pop %>% pivot_longer(
+    cols = c("Black", "Asian", "White", "Hispanic", "Other/Unknown"),
+    names_to = "race",
+    values_to = "pop"
   )
+    # Subset Davis arrest log
+  age_race_arrests <- davis_log
+  age_race_arrests$date <- substring(age_race_arrests$date, 7, 10)
+  age_race_arrests <- subset(age_race_arrests, date == "2018")
+  age_race_arrests <- age_race_arrests[c("race", "age")]
+    # Create age groups that conform to census groups
+  age_race_arrests$age_group <- cut(
+    age_race_arrests$age,
+    c(0,4,9,14,17,19,24,29,34,44,54,64,74,84,120), labels = c("age_0_u5",
+                                               "age_5_9",
+                                               "age_10_14",
+                                               "age_15_17",
+                                               "age_18_19",
+                                               "age_20_24",
+                                               "age_25_29",
+                                               "age_30_34",
+                                               "age_35_44",
+                                               "age_45_54",
+                                               "age_55_64",
+                                               "age_65_74",
+                                               "age_75_84",
+                                               "age_85over"))
+  age_race_arrests$race <- recode_factor(age_race_arrests$race, 
+                                    "Asian Indian" = "Asian",
+                                    "Chinese" = "Asian",
+                                    "Filipino" = "Asian",
+                                    "Japanese" = "Asian",
+                                    "Korean" = "Asian",
+                                    "Other Asian" = "Asian",
+                                    "Vietnamese" = "Asian",
+                                    "Laotian" = "Asian",
+                                    "Hawaiian" = "Other/Unknown",
+                                    "Indian/Nativ" = "Other/Unknown",
+                                    "Missing" = "Other/Unknown",
+                                    "Other" = "Other/Unknown",
+                                    "Pacific" = "Other/Unknown",
+                                    "Unknown" = "Other/Unknown")
+    # Create counts by age group and race
+  age_race_arrests <- age_race_arrests %>% count(race, age_group)
+  colnames(age_race_arrests) <- c("race", "age_group", "arrests")
+  age_race <- left_join(age_race_arrests, age_race_pop, by = c(
+    "race", "age_group"
+  ))
+    # Add rate per 1000k column
+  age_race$rate <- (age_race$arrests/age_race$pop)*1000
+                                    
+  
+  
+  arrest_race <- davis_log
+ 
+  arrest_race <- as.data.frame(table(arrest_race$race))
+  colnames(arrest_race) <- c("race", "arrests")
+  arrest_race$pct <- (arrest_race$arrests/sum(arrest_race$arrests))*100
+  arrest_race$pop <-  as.vector(c(
+    (15410 + 14974 + 14751 + 14729 + 14429), 
+    (4095 + 3939 + 3914 + 3385 + 3892), 
+    (38663 + 37871 + 37380 + 37195 + 37071),
+    (1597 + 1502 + 1592 + 1784 + 1383), 
+    (9648 + 9340 + 9580 + 9570 + 9406)))
+  arrest_race$rate <- (arrest_race$arrests/arrest_race$pop)*1000
+  
     
     
   

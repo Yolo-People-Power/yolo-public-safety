@@ -51,15 +51,12 @@ library(ggtext)
                   label = round(rate,2)),
                   size = 6,
                   vjust = -0.25) +
-  guides(fill = F)
- 
-  
+  guides(fill = F) +
   geom_text(aes(x = category, y = pct * 39.1, 
                 label = paste(pct,"%", sep ="")), 
             position=position_dodge(width=0.9), 
             vjust=-0.25, size = 6)
   
-
   # CHARGES BY CATEGORY----
   charge_colors <- c("steelblue1", "steelblue3", "steelblue4",
                      "seagreen2", "seagreen4",
@@ -125,7 +122,7 @@ library(ggtext)
   
   # CHARGES BY RACE & CATEGORY----
   
-    # VTotals by race
+    # Totals by race
   ggplot(subset(race_totals, category %in% freq_charges)) +
     geom_col(aes(x = category, y = total_count, 
                  group = race, fill = race),
@@ -246,4 +243,30 @@ library(ggtext)
                         name = "Racial arrest ratio") +
     geom_hline(yintercept = 1, color = "grey10", linetype = "dashed") +
     scale_y_continuous(breaks=seq(0,10, by =1)) 
+  
+    # DRUG CHARGES----
+      # year trends
+  ggplot(drug_charges) +
+    geom_line(aes(x = date, 
+             y = n, 
+             group = description_1, 
+             color = description_1)) +
+    facet_wrap(~race) +
+    guides(fill=guide_legend(ncol=2)) + 
+    theme(legend.text = element_text(size = 6))
+  
+      # Race/drug charge type
+  ggplot(drug_ch_type) +
+    geom_col(aes(x = race,
+                 y = n,
+                 fill = type),
+             position = "stack")
+  
+    # ARRESTS BY AGE & RACE-----
+  ggplot(subset(age_race, age_group != "age_30_34"),
+         aes(x = age_group, y = rate, 
+             fill = race)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    ylab("Arrests per 1000 people, 2018")
+    
   
