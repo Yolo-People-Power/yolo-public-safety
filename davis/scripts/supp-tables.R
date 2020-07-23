@@ -164,7 +164,7 @@ library(lubridate)
       (4095 + 3939 + 3914 + 3385 + 3892), # Other
       (1597 + 1502 + 1592 + 1784 + 1383), # Black
       (9648 + 9340 + 9580 + 9570 + 9406), # Hispanic
-      (38663 + 37871 + 37380 + 37195 + 37071))) # Other
+      (38663 + 37871 + 37380 + 37195 + 37071))) # White
     # Normalized per 100k
   race_cat_norm <- t(t(race_cat[,2:6]) / davis_pop)
   race_cat_norm <- race_cat_norm * 1000
