@@ -5,7 +5,7 @@ This repository contains data on public safety and social services in Yolo Count
 
 ## data
 
-The data folder contains two subfolders. The `raw` folder contains data and metadata obtained from the various using the Public Records Act. A list of what's currently included:  
+The data folder contains two subfolders. The `raw` folder contains data and metadata obtained from the various departments using the Public Records Act. A list of what's currently included:  
 
 _davis-arrest-log-raw_: Daily arrest logs from the Davis PD from June 2015 to June 2020.  
 _codes_: A document from the Office of the Attorney General of California listing arrest offense codes grouped by felony, misdemeanor, and crime category. From https://oag.ca.gov/sites/all/files/agweb/pdfs/cjsc/prof10/codes.pdf    
