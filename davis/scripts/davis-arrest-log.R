@@ -69,7 +69,7 @@
     # Fill in rows with missing race, remove rows with blank charges
   davis_log_long$race <- sub("^$", "Missing", 
                              davis_log_long$race)
-  davis_log_long <- davis_log_long %>% na_if("") %>% na.omit
+  davis_log_long <- davis_log_long %>% na_if("") %>% na.omit(sec_code)
     # Standardize charge codes (capitalize, delete spaces)
   davis_log_long$sec_code <- toupper(davis_log_long$sec_code)
   davis_log_long$sec_code <- gsub(" ", "", davis_log_long$sec_code, 
