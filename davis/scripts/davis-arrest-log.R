@@ -57,7 +57,7 @@
                          "White", davis_log$race)
   davis_log$race <- gsub("OIsltahnedr eArsian", 
                          "Other Asian", davis_log$race)
-  davis_log$race[1849] <- "Other"
+  davis_log$race[1849] <- "Other" # blank in pdf...suggest assigning as Unknown/NA. -CF
 
   # RESHAPE/PREP ARREST LOG----
     # Melt into single charge column
