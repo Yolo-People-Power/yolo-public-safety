@@ -2,34 +2,60 @@ library(tidyverse)
 library(ggplot2)
 library(ggtext)
 
+calls_sum <- 
+
   # SERVICE CALLS-----
     # Calls by charge category
-  ggplot(calls_sum) + 
-    geom_col(aes(x=broad_cat, y = n, fill = broad_cat),
-             position = "dodge") + 
-    geom_col(aes(x=broad_cat, y = pct * 68262/29.95, fill = broad_cat)) +
-    theme(axis.text.x=element_text(angle = 55, hjust = 1, 
-                                   size = 14, vjust = 1),
-          axis.ticks.x=element_blank(),
-          axis.text.y=element_text(size = 12),
-          axis.title.y=element_text(size =14)
-    ) +
-    scale_y_continuous(name = expression("Total # of calls"),
-                       sec.axis = sec_axis(~ . * 29.95/68262,
-                                           name = "",
-                                           breaks = seq(0,30, by = 5)),
-                       limits = c(0, 75000)) +
-    geom_text(aes(x = broad_cat, y = pct * 68262/29.95, 
-                  label = paste(pct,"%", sep ="")), 
-              position=position_dodge(width=0.9), 
-              vjust=-0.25, size = 5) +
-    xlab("") + labs(fill = "Call category") +
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.background = element_rect(fill = "white")) +
-    guides(fill = F) 
-    
+ggplot(calls_sum %>% 
+         filter(date >="2019-01-01" & 
+                  date <= "2019-06-01" & 
+                  disp_desc %in% "Service")) +
+  geom_bar(aes(x = broad_cat, 
+               y = n,
+               fill = broad_cat
+               ),
+    stat = "identity") +
+  scale_fill_viridis_c()
+
+
+ggplot(calls_sum) +
+  geom_bar(aes(x = broad_cat, 
+               y = n*100/sum(n),
+               fill = broad_cat),
+           stat = "identity") + scale_fill_viridis_d()
+
   # ARRESTS----
+  
+arrests_temp <- arrests %>%
+  filter(as.Date(date) %in% seq(as.Date("2015-06-02"),
+                                as.Date("2020-06-16"),
+                                by = "days") &
+           age %in% seq(18,73) &
+           race %in% levels(arrests$race) &
+           severity %in% levels(arrests$severity))
+
+ggplot(arrests) +
+  geom_bar(aes(x = race, 
+               y = (..count..)*100/sum(..count..),
+               group = race, fill = race),
+           stat = "count") +
+  geom_text(aes(label = scales::percent((..count..)/sum(..count..)),
+                y = (..count..)*100/sum(..count..),
+                x = race),
+                stat = "count",
+                vjust = -.5)
+
+ggplot(arrests) + 
+  geom_bar(aes(x= date, y = (..count..)), fill = "#20A387FF", color = "#1F968BFF", stat = "bin", binwidth = 31) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b-%Y",
+               expand = c(0,0)) +
+  theme(axis.text.x = element_text(angle = 90, vjust = .5)) + labs("") +
+  scale_color_viridis_d() +
+  scale_y_continuous(expand=c(0.01,0)) + 
+  scale_fill_viridis_d() +
+  facet_wrap(~race)
+  
+  
   
     # By race
   ggplot(arrest_race,

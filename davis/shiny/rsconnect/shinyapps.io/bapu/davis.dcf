@@ -1,0 +1,12 @@
+name: davis
+title: davis
+username:
+account: bapu
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2685891
+bundleId: 3544159
+url: https://bapu.shinyapps.io/davis/
+when: 1598072610.77369
+asMultiple: FALSE
+asStatic: FALSE

@@ -3,11 +3,12 @@ library(googlesheets4)
 library(data.table)
 library(lubridate)
 
-  
+setwd("/Users/bapu/Projects/watershed/action/public-safety/yolo/analysis/davis/")  
 
-# SERVICE CALLS BY CHARGE CATEGORY----
+# SERVICE CALLS----
+    # For Shiny
   # Create aggregate datasets
-  calls_sum <- calls_desc %>% count(broad_cat)
+  calls_sum <- calls_desc %>% count(broad_cat, date, disp_desc)
   # Order factor levels
   calls_sum$broad_cat <- factor(calls_sum$broad_cat, 
                                 levels = c(
@@ -26,12 +27,81 @@ library(lubridate)
                                   "Suspicious activity/threats",
                                   "Violent crime, physical & sexual abuse, death"
                                 ))
-  calls_sum$pct <- (calls_sum$n/(sum(calls_sum$n)))*100
-  calls_sum$pct <- round(calls_sum$pct, digits = 2)
+    # Group by date etc.
+  calls_sum <- calls_sum %>%
+    group_by(date, broad_cat, disp_desc) %>%
+    summarize(n = sum(n))
+  calls_sum$date <- as.Date(calls_sum$date)
   
-  # ARRESTS BY RACE----
-  arrest_race <- davis_log
-  arrest_race$race <- recode_factor(arrest_race$race, 
+  write.csv(calls_sum,"./data/generated/calls_sum.csv", row.names = F)
+  write.csv(calls_sum,"./shiny/calls_sum.csv", row.names = F)
+
+  # ARRESTS BY RACE, SEVERITY, DATE----
+    # for Shiny
+  arrests <- davis_log_long %>% pivot_wider(
+    id_cols = c("indiv_id", "date", "sex", "race", "age"), 
+    names_from = c("charge_num"),
+    values_from = c("severity_1", "sec_code", "description_1"))
+    # Recode and order severity levels
+  arrests$severity <- paste(arrests$severity_1_charge1,
+                            arrests$severity_1_charge2, 
+                            arrests$severity_1_charge3,
+                            sep = ", ")
+  arrests$sec_codes <- paste(arrests$sec_code_charge1,
+                             arrests$sec_code_charge2,
+                             arrests$sec_code_charge3,
+                             sep = ", ")
+  arrests$charges <- paste(arrests$description_1_charge1,
+                           arrests$description_1_charge2,
+                           arrests$description_1_charge3,
+                           sep = ", ")
+  arrests$severity <- recode_factor(
+    arrests$severity,
+    "Felony, Felony, Felony" = "Felony [3]",
+    "Felony, Felony, Misdemeanor"  = "Felony [2], Misdemeanor [1]",
+    "Felony, Felony, NA" = "Felony [2]",   
+    "Felony, Misdemeanor, Felony" = "Felony [2], Misdemeanor [1]",
+    "Felony, Misdemeanor, Misdemeanor" = "Felony [1], Misdemeanor [2]",
+    "Felony, Misdemeanor, NA" = "Felony [1], Misdemeanor [1]", 
+    "Felony, NA, Felony" = "Felony [2]",     
+    "Felony, NA, Misdemeanor" = "Felony [1], Misdemeanor [1]",     
+    "Felony, NA, NA" = "Felony [1]",            
+    "Misdemeanor, Felony, Felony" = "Felony [2], Misdemeanor [1]",
+    "Misdemeanor, Felony, Misdemeanor" = "Felony [1], Misdemeanor [2]",
+    "Misdemeanor, Felony, NA" = "Felony [1], Misdemeanor [1]",  
+    "Misdemeanor, Misdemeanor, Felony" = "Felony [1], Misdemeanor [2]",  
+    "Misdemeanor, Misdemeanor, Misdemeanor" = "Misdemeanor [3]",
+    "Misdemeanor, Misdemeanor, NA" = "Misdemeanor [2]",
+    "Misdemeanor, NA, Felony" = "Felony [1], Misdemeanor [1]",            
+    "Misdemeanor, NA, Misdemeanor" = "Misdemeanor [2]",       
+    "Misdemeanor, NA, NA" = "Misdemeanor [1]",                
+    "NA, Felony, Felony" = "Felony [2]",                  
+    "NA, Felony, Misdemeanor" = "Felony [1], Misdemeanor [1]",             
+    "NA, Felony, NA" = "Felony [1]",                   
+    "NA, Misdemeanor, Felony" = "Felony [1], Misdemeanor [1]",             
+    "NA, Misdemeanor, Misdemeanor" = "Misdemeanor [2]",          
+    "NA, Misdemeanor, NA" = "Misdemeanor [1]",           
+    "NA, NA, Felony" = "Felony [1]",                    
+    "NA, NA, Misdemeanor" = "Misdemeanor [1]",            
+    "NA, NA, NA" = "Unclear/Unknown" )
+  arrests <- arrests %>% arrange(severity) %>%
+    mutate(severity = factor(severity, levels = 
+                           c("Felony [3]", "Felony [2], Misdemeanor [1]",
+                             "Felony [2]", "Felony [1], Misdemeanor [2]",
+                             "Felony [1], Misdemeanor [1]", "Felony [1]",            
+                             "Misdemeanor [3]", "Misdemeanor [2]",
+                             "Misdemeanor [1]", "Unclear/Unknown")))
+  arrests$severity_1_charge1 <- NULL
+  arrests$severity_1_charge2 <- NULL
+  arrests$severity_1_charge3 <- NULL
+  arrests$sec_code_charge1 <- NULL
+  arrests$sec_code_charge2 <- NULL
+  arrests$sec_code_charge3 <- NULL
+  arrests$description_1_charge1 <- NULL
+  arrests$description_1_charge2 <- NULL
+  arrests$description_1_charge3 <- NULL
+    # Recode races
+  arrests$race <- recode_factor(arrests$race, 
                                     "Asian Indian" = "Asian",
                                     "Chinese" = "Asian",
                                     "Filipino" = "Asian",
@@ -46,19 +116,39 @@ library(lubridate)
                                     "Other" = "Other/Unknown",
                                     "Pacific" = "Other/Unknown",
                                     "Unknown" = "Other/Unknown")
-  arrest_race <- as.data.frame(table(arrest_race$race))
-  colnames(arrest_race) <- c("race", "arrests")
-  arrest_race$pct <- (arrest_race$arrests/sum(arrest_race$arrests))*100
-  arrest_race$pop <-  as.vector(c(
-    (15410 + 14974 + 14751 + 14729 + 14429), 
-    (4095 + 3939 + 3914 + 3385 + 3892), 
-    (38663 + 37871 + 37380 + 37195 + 37071),
-    (1597 + 1502 + 1592 + 1784 + 1383), 
-    (9648 + 9340 + 9580 + 9570 + 9406)))
-  arrest_race$rate <- (arrest_race$arrests/arrest_race$pop)*1000
-
+  arrests$indiv_id <- NULL
+  arrests$date <- as.Date(arrests$date)
+      # remove NAs
+  arrests[c("severity", "sec_codes", "charges")] <- 
+    as.data.frame(sapply(arrests[c("severity", "sec_codes", "charges")], 
+    function(x) x <- gsub(", NA", "", x)))
+     # Export
+  write.csv(arrests, "./shiny/arrests.csv", row.names = F)
   
-  # CHARGES BY CATEGORY----
+  # CHARGES-----
+    # For Shiny
+  charges <- davis_log_long %>% 
+    subset(select  = c("indiv_id", "date", "sex", "race", "age",
+                       "sec_code", "description_1", "severity_1", "category"))
+  charges$race <- recode_factor(charges$race, 
+                                "Asian Indian" = "Asian",
+                                "Chinese" = "Asian",
+                                "Filipino" = "Asian",
+                                "Japanese" = "Asian",
+                                "Korean" = "Asian",
+                                "Other Asian" = "Asian",
+                                "Vietnamese" = "Asian",
+                                "Laotian" = "Asian",
+                                "Hawaiian" = "Other/Unknown",
+                                "Indian/Nativ" = "Other/Unknown",
+                                "Missing" = "Other/Unknown",
+                                "Other" = "Other/Unknown",
+                                "Pacific" = "Other/Unknown",
+                                "Unknown" = "Other/Unknown")
+  write.csv(charges, "./shiny/charges.csv", row.names = F)
+  
+  
+  # Charges by category
   
     # Create aggregates
   davis_charge_cat <- davis_log_long %>%

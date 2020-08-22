@@ -1,9 +1,9 @@
 "","category","race","total_arrests"
-"1","*All arrests","Asian",167
-"2","*All arrests","Other/Unknown",189
-"3","*All arrests","Black",537
-"4","*All arrests","White",2181
-"5","*All arrests","Hispanic",841
+"1","*All charges","Asian",167
+"2","*All charges","Other/Unknown",189
+"3","*All charges","Black",537
+"4","*All charges","White",2181
+"5","*All charges","Hispanic",841
 "6","Alcohol-related incidents","Asian",53
 "7","Alcohol-related incidents","Other/Unknown",34
 "8","Alcohol-related incidents","Black",46

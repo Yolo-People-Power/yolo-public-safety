@@ -1,0 +1,12 @@
+name: davis-public-safety
+title: davis-public-safety
+username:
+account: bapu
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2685858
+bundleId: 3534728
+url: https://bapu.shinyapps.io/davis-public-safety/
+when: 1597857490.41995
+asMultiple: FALSE
+asStatic: FALSE

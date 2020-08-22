@@ -977,6 +977,8 @@
   le_code <- le_code %>%
     pivot_wider(names_from = id, 
                 values_from = c(description, sentence, severity))
+    # Code small version
+  le_code <- le_code[c("")]
   
   # JOIN DATASETS-----
   davis_log_long <- left_join(davis_log_long, le_code, by = "sec_code")

@@ -1,9 +1,9 @@
 "","category","race","rate_k"
-"1","*All arrests","Asian",2.24785646023178
-"2","*All arrests","Other/Unknown",9.83094928478543
-"3","*All arrests","Black",68.3379994909646
-"4","*All arrests","White",11.5899670528218
-"5","*All arrests","Hispanic",17.6888776712098
+"1","*All charges","Asian",2.24785646023178
+"2","*All charges","Other/Unknown",9.83094928478543
+"3","*All charges","Black",68.3379994909646
+"4","*All charges","White",11.5899670528218
+"5","*All charges","Hispanic",17.6888776712098
 "6","Alcohol-related incidents","Asian",0.713391571211285
 "7","Alcohol-related incidents","Other/Unknown",1.76853055916775
 "8","Alcohol-related incidents","Black",5.85390684652583
