@@ -27,4 +27,8 @@ _race_cat_pop_: Arrests by category, in comparison with population.
 _davis-arrest-log_: This script receives _davis_arrest_log_raw_ as input. It cleans, reorganizes, and joins the arrest log with several other data tables (mainly for categorizing crimes) from online sources.   
 _davis-service-log_: This script receives _service-calls-raw_ as input. It cleans and reorganizes the service calls dataset, and joins it with a disposition code dataset stored online (originally received from the Davis PD).  
 _visualizations_: This script reshapes the service call and arrest log datasets and generates visualizations.  
-_app_: Shiny app for visualizations. Under development.  
+_supp-tables_: This script contains code for generating supplemental objects, including the datasets used by the Shiny app.
+
+## shiny
+_app_: Shiny app for visualizations. 
+Data files for the Shiny app are also included in this folder.
